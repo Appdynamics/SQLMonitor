@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<monitor>
+    <name>SQLMonitor</name>
+    <type>managed</type>
+    <enabled>true</enabled>
+    <description>Run arbitary queries and monitor their return values</description>
+    <monitor-configuration></monitor-configuration>
+    <monitor-run-task>
+        <execution-style>periodic</execution-style>
+        <execution-frequency-in-seconds>10</execution-frequency-in-seconds>
+        <name>SQLMonitor Task</name>
+        <display-name>SQLMonitor Task</display-name>
+        <description>SQLMonitor Task</description>
+        <type>java</type>
+        <execution-timeout-in-seconds>120</execution-timeout-in-seconds>
+        <task-arguments>
+            <!-- config file-->
+            <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml"     />
+            <argument name="log-prefix" is-required="false" default-value="[SQLMonitorAppDExt] " />
+        </task-arguments>
+        <java-task>
+            <!-- Use regular classpath foo.jar:bar.jar -->
+            <!-- append JDBC driver jar -->
+            <classpath>SQLMonitor.jar</classpath>
+            <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
+        </java-task>
+    </monitor-run-task>
+    
+</monitor>

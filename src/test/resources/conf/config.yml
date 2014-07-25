@@ -1,0 +1,14 @@
+servers:
+  - driver: "com.mysql.jdbc.Driver"
+    url: "jdbc:mysql://localhost:3306/demo"
+    user: "demo"
+    password: "demo"
+
+# The list of commands can be found here http://zookeeper.apache.org/doc/r3.4.6/zookeeperAdmin.html#sc_zkCommands
+
+commands:
+   - command: "select foo as foobar from bar where id = 42"
+   - command: "select foo as foobar from bar where id = 42"
+
+metricPrefixs:
+  - metricPrefix: "Custom Metrics|SQL|MySQL|"
