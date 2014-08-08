@@ -286,12 +286,4 @@ public class SQLMonitor extends AManagedMonitor {
         this.logPrefix = (logPrefix != null) ? logPrefix : "";
     }
 
-    public static void main(String[] args) throws Exception {
-        SQLMonitor monitor = new SQLMonitor();
-        System.out.println("SQLMonitor version " + monitor.VERSION);
-        Map<String, String> taskArgs = new HashMap();
-        taskArgs.put(CONFIG_ARG, "src/main/resources/conf/config.yml");
-        TaskExecutionContext context = null;
-        System.out.println(monitor.execute(taskArgs, context));
-    }
 }

@@ -1,14 +1,35 @@
+# Configure the SQLMonitor
 servers:
-  - driver: "com.mysql.jdbc.Driver"
-    url: "jdbc:mysql://localhost:3306/demo"
-    user: "demo"
-    password: "demo"
+    - server: "localhost"
+      driver: "com.mysql.jdbc.Driver"
+      url: "jdbc:mysql://localhost:3306/demo"
+      user: "root"
+      password: "smallwonder"
 
-# The list of commands can be found here http://zookeeper.apache.org/doc/r3.4.6/zookeeperAdmin.html#sc_zkCommands
+    - server: "localhost"
+      driver: "com.mysql.jdbc.Driver"
+      url: "jdbc:mysql://localhost:3306/demo"
+      user: "root"
+      password: "smallwonder"
 
+
+
+
+# Add in SQL to execute starting at index 1
+# Roll up settings may optionally be added after the query by appending -- followed by
+# the roll up. Multiple roll up may be used separated by whitespace.
+# Sample roll up
+# METRIC_AGGREGATION_TYPE_AVERAGE or METRIC_AGGREGATION_TYPE_SUM or METRIC_AGGREGATION_TYPE_OBSERVATION
+# Time roll up
+# METRIC_TIME_ROLLUP_TYPE_AVERAGE or METRIC_TIME_ROLLUP_TYPE_SUM or METRIC_TIME_ROLLUP_TYPE_CURRENT
+# Cluster roll up
+# METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL or METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE
 commands:
-   - command: "select foo as foobar from bar where id = 42"
-   - command: "select foo as foobar from bar where id = 42"
+   - command: "select foo as foobar from bar where id = 10 -- METRIC_AGGREGATION_TYPE_SUM METRIC_TIME_ROLLUP_TYPE_SUM METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE"
+     displayPrefix: "Expedia"
+   - command: "select foo as foobar from bar where id = 10"
+     displayPrefix: "DerbySoft"
 
-metricPrefixs:
-  - metricPrefix: "Custom Metrics|SQL|MySQL|"
+# Make sure the metric prefix ends with a |
+
+metricPrefix: "Custom Metrics|SQL|"

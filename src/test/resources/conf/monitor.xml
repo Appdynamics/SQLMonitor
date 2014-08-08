@@ -15,13 +15,8 @@
         <type>java</type>
         <execution-timeout-in-seconds>120</execution-timeout-in-seconds>
         <task-arguments>
-            <argument name="driver" is-required="true"/>
-            <argument name="url" is-required="true"/>
-            <argument name="user" is-required="true"/>
-            <argument name="password" is-required="true"/>
-            <argument name="metricprefix" is-required="true"/>
             <!-- config file-->
-            <argument name="config-file" is-required="true" default-value="monitors/ZookeeperMonitor/config.yml"     />
+            <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml"     />
             <argument name="log-prefix" is-required="false" default-value="[SQLMonitorAppDExt] " />
         </task-arguments>
         <java-task>
