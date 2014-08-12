@@ -12,6 +12,7 @@ import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
 import com.singularity.ee.agent.systemagent.api.TaskOutput;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,10 +24,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 public class SQLMonitor extends AManagedMonitor {
@@ -91,14 +92,12 @@ public class SQLMonitor extends AManagedMonitor {
                     try {
                         int counter = 1;
                         logger.info("sql statement: " + counter++);
-                        String statement = command.getCommand();
+                        String statement = command.getCommand().trim();
                         String displayPrefix = command.getDisplayPrefix();
                         if (statement != null) {
                             // parse into statement and roll up
-                            List<String> list = parse(statement);
-                            String sql = list.get(0);
-                            logger.info("Running " + sql);
-                            printMetric(executeQuery(conn, sql), displayPrefix, list);
+                            logger.info("Running " + statement);
+                            printMetric(executeQuery(conn, statement), displayPrefix);
                         } else {
                             logger.error("Didn't found statement: " + counter);
                         }
@@ -106,12 +105,13 @@ public class SQLMonitor extends AManagedMonitor {
                         e.printStackTrace();
                     }
                 }
-                if (conn != null)
+                if (conn != null) {
                     try {
                         conn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                }
             }
         } catch (SQLException sqle) {
             logger.error("SQLException: ", sqle);
@@ -185,21 +185,21 @@ public class SQLMonitor extends AManagedMonitor {
         Connection conn = null;
         // build the URL
         String driver = server.getDriver();
-        String url = server.getUrl();
+        String connectionString = server.getConnectionString();
         String user = server.getUser();
         String password = server.getPassword();
 
         // load the driver
-        if (driver != null && url != null) {
+        if (driver != null && connectionString != null) {
             Class.forName(driver);
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(connectionString, user, password);
             logger.info("Got connection " + conn);
         }
 
         return conn;
     }
 
-    private void printMetric(Data data, String displayPrefix, List<String> rollup) {
+    private void printMetric(Data data, String displayPrefix) {
         String metricName = metricPrefix + displayPrefix.concat("|") + data.getName();
 
         // don't write empty data
@@ -209,51 +209,10 @@ public class SQLMonitor extends AManagedMonitor {
             String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE;
             String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE;
             String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE;
-
-            // Apply roll ups
-            if (rollup.size() > 1) {
-                Iterator<String> itor = rollup.iterator();
-                while (itor.hasNext()) {
-                    String value = itor.next();
-                    if (value.equals("METRIC_AGGREGATION_TYPE_AVERAGE")) {
-                        aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE;
-                    } else if (value.equals("METRIC_AGGREGATION_TYPE_SUM")) {
-                        aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_SUM;
-                    } else if (value.equals("METRIC_AGGREGATION_TYPE_OBSERVATION")) {
-                        aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_OBSERVATION;
-                    } else if (value.equals("METRIC_TIME_ROLLUP_TYPE_AVERAGE")) {
-                        timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE;
-                    } else if (value.equals("METRIC_TIME_ROLLUP_TYPE_SUM")) {
-                        timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_SUM;
-                    } else if (value.equals("METRIC_TIME_ROLLUP_TYPE_CURRENT")) {
-                        timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_CURRENT;
-                    } else if (value.equals("METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL")) {
-                        clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL;
-                    } else if (value.equals("METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE")) {
-                        clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE;
-                    }
-                }
-            }
             MetricWriter writer = getMetricWriter(metricName, aggregationType, timeRollup, clusterRollup);
             writer.printMetric(data.getValue());
         }
     }
-
-    // parse the string from the config to get the SQL and any roll up settings
-    private List<String> parse(String statement) {
-        ArrayList result = new ArrayList();
-
-        // split on --
-        String[] pair = statement.split("--");
-        result.add(pair[0].trim());
-        if (pair.length == 2) {
-            String[] rollups = pair[1].trim().split("\\s");
-            result.addAll(Arrays.asList(rollups));
-        }
-
-        return result;
-    }
-
 
     /**
      * Returns a config file name,

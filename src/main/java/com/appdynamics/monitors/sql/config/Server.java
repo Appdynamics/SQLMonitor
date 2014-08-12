@@ -21,7 +21,7 @@ public class Server {
 
     private String server;
     private String driver;
-    private String url;
+    private String connectionString;
     private String user;
     private String password;
 
@@ -33,12 +33,12 @@ public class Server {
         this.driver = driver;
     }
 
-    public String getUrl() {
-        return url;
+    public String getConnectionString() {
+        return connectionString;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setConnectionString(String connectionString) {
+        this.connectionString = connectionString;
     }
 
     public String getUser() {
