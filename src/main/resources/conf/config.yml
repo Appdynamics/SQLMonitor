@@ -18,7 +18,7 @@ servers:
 commands:
    - command: "select foo as foobar from bar where id = 10"
      displayPrefix: "Expedia"
-   - command: "select foo as foobar from bar where id = 10"
+   - command: "select foo as foobar from bar where id = 5"
      displayPrefix: "DerbySoft"
 
 # Make sure the metric prefix ends with a |

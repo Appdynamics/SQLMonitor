@@ -22,16 +22,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 public class SQLMonitor extends AManagedMonitor {
-    public final String VERSION = "1.0";
     protected final Logger logger = Logger.getLogger(SQLMonitor.class.getName());
     private String metricPrefix;
     public static final String CONFIG_ARG = "config-file";
@@ -51,6 +46,7 @@ public class SQLMonitor extends AManagedMonitor {
     public TaskOutput execute(Map<String, String> taskArguments, TaskExecutionContext taskContext) throws TaskExecutionException {
         if (taskArguments != null) {
             setLogPrefix(taskArguments.get(LOG_PREFIX));
+            logger.info("Using Monitor Version [" + getImplementationVersion() + "]");
             logger.info(getLogPrefix() + "Starting the SQL Monitoring task.");
             if (logger.isDebugEnabled()) {
                 logger.debug(getLogPrefix() + "Task Arguments Passed ::" + taskArguments);
@@ -80,6 +76,7 @@ public class SQLMonitor extends AManagedMonitor {
         }
         throw new TaskExecutionException(getLogPrefix() + "SQL monitoring task completed with failures.");
     }
+
 
     private String executeCommands(Configuration config, String status) {
         Connection conn = null;
@@ -206,8 +203,8 @@ public class SQLMonitor extends AManagedMonitor {
         if (data.getValue() != null) {
             logger.info("Data " + data);
             // default roll ups
-            String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE;
-            String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE;
+            String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_OBSERVATION;
+            String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_CURRENT;
             String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE;
             MetricWriter writer = getMetricWriter(metricName, aggregationType, timeRollup, clusterRollup);
             writer.printMetric(data.getValue());
@@ -243,6 +240,10 @@ public class SQLMonitor extends AManagedMonitor {
 
     public void setLogPrefix(String logPrefix) {
         this.logPrefix = (logPrefix != null) ? logPrefix : "";
+    }
+
+    private static String getImplementationVersion() {
+        return SQLMonitor.class.getPackage().getImplementationTitle();
     }
 
 }

@@ -14,7 +14,6 @@ public class SQLMonitorTest {
     @Test
     public void testSQLMonitor() throws TaskExecutionException {
         SQLMonitor monitor = new SQLMonitor();
-        System.out.println("SQLMonitor version " + monitor.VERSION);
         Map<String, String> taskArgs = new HashMap();
         taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config.yml");
         monitor.execute(taskArgs, null);
