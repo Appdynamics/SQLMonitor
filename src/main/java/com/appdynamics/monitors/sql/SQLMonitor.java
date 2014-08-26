@@ -203,9 +203,9 @@ public class SQLMonitor extends AManagedMonitor {
         if (data.getValue() != null) {
             logger.info("Data " + data);
             // default roll ups
-            String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_OBSERVATION;
-            String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_CURRENT;
-            String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE;
+            String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE;
+            String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE;
+            String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL;
             MetricWriter writer = getMetricWriter(metricName, aggregationType, timeRollup, clusterRollup);
             writer.printMetric(data.getValue());
         }
