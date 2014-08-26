@@ -6,15 +6,6 @@ servers:
       user: "root"
       password: "smallwonder"
 
-# Add in SQL to execute starting at index 1
-# Roll up settings may optionally be added after the query by appending -- followed by
-# the roll up. Multiple roll up may be used separated by whitespace.
-# Sample roll up
-# METRIC_AGGREGATION_TYPE_AVERAGE or METRIC_AGGREGATION_TYPE_SUM or METRIC_AGGREGATION_TYPE_OBSERVATION
-# Time roll up
-# METRIC_TIME_ROLLUP_TYPE_AVERAGE or METRIC_TIME_ROLLUP_TYPE_SUM or METRIC_TIME_ROLLUP_TYPE_CURRENT
-# Cluster roll up
-# METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL or METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE
 commands:
    - command: "select foo as foobar from bar where id = 10"
      displayPrefix: "Expedia"
