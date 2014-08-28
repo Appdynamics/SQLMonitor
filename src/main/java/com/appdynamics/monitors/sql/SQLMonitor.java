@@ -5,6 +5,7 @@
 package com.appdynamics.monitors.sql;
 
 import com.appdynamics.extensions.PathResolver;
+import com.appdynamics.extensions.yml.YmlReader;
 import com.appdynamics.monitors.sql.config.*;
 import com.google.common.base.Strings;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
@@ -32,8 +33,6 @@ public class SQLMonitor extends AManagedMonitor {
     public static final String CONFIG_ARG = "config-file";
     public static final String LOG_PREFIX = "log-prefix";
     private static String logPrefix;
-    //To load the config files
-    private final static ConfigUtil<Configuration> configUtil = new ConfigUtil<Configuration>();
 
     /**
      * This is the entry point to the monitor called by the Machine Agent
@@ -57,7 +56,7 @@ public class SQLMonitor extends AManagedMonitor {
 
             try {
                 //read the config.
-                Configuration config = configUtil.readConfig(configFilename, Configuration.class);
+                Configuration config = YmlReader.readFromFile(configFilename, Configuration.class);
 
                 // no point continuing if we don't have this
                 if (config.getCommands().isEmpty()) {
@@ -66,10 +65,8 @@ public class SQLMonitor extends AManagedMonitor {
                 processMetricPrefix(config.getMetricPrefix());
 
                 status = executeCommands(config, status);
-            } catch (FileNotFoundException fe) {
-                logger.error("File not found", fe);
-            } catch (IOException ioe) {
-                logger.error("IO Exception", ioe);
+            }catch (Exception ioe) {
+                logger.error("Exception", ioe);
             }
 
             return new TaskOutput(status);
