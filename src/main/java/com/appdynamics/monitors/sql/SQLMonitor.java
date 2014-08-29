@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 
 public class SQLMonitor extends AManagedMonitor {
     protected final Logger logger = Logger.getLogger(SQLMonitor.class.getName());
-    private String metricPrefix;
+    public String metricPrefix;
     public static final String CONFIG_ARG = "config-file";
     public static final String LOG_PREFIX = "log-prefix";
     private static String logPrefix;
@@ -193,7 +193,7 @@ public class SQLMonitor extends AManagedMonitor {
         return conn;
     }
 
-    private void printMetric(Data data, String displayPrefix) {
+    public void printMetric(Data data, String displayPrefix) {
         String metricName = metricPrefix + displayPrefix.concat("|") + data.getName();
 
         // don't write empty data
@@ -231,11 +231,11 @@ public class SQLMonitor extends AManagedMonitor {
         return configFileName;
     }
 
-    public String getLogPrefix() {
+    private String getLogPrefix() {
         return logPrefix;
     }
 
-    public void setLogPrefix(String logPrefix) {
+    private void setLogPrefix(String logPrefix) {
         this.logPrefix = (logPrefix != null) ? logPrefix : "";
     }
 
