@@ -151,7 +151,11 @@ public class SQLMonitor extends AManagedMonitor {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
             // only get the first result
-            rs.first();
+            if(!rs.next()) {
+                logger.info("0 results returned by query");
+                return retval;
+            }
+
             // only get the first column
             String value = rs.getString(1);
             // use the lable for the name of the metric
