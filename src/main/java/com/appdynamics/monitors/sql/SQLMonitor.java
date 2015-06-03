@@ -6,26 +6,20 @@ package com.appdynamics.monitors.sql;
 
 import com.appdynamics.extensions.PathResolver;
 import com.appdynamics.extensions.yml.YmlReader;
-import com.appdynamics.monitors.sql.config.*;
+import com.appdynamics.monitors.sql.config.Command;
+import com.appdynamics.monitors.sql.config.Configuration;
+import com.appdynamics.monitors.sql.config.Server;
 import com.google.common.base.Strings;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
 import com.singularity.ee.agent.systemagent.api.TaskOutput;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
+import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 public class SQLMonitor extends AManagedMonitor {
     protected final Logger logger = Logger.getLogger(SQLMonitor.class.getName());
@@ -140,6 +134,7 @@ public class SQLMonitor extends AManagedMonitor {
         Statement stmt = null;
         ResultSet rs = null;
 
+
         // SECURITY
         // check for query only allow selects
         if (!query.toUpperCase().startsWith("SELECT")) {
@@ -148,10 +143,10 @@ public class SQLMonitor extends AManagedMonitor {
         }
 
         try {
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(query);
             // only get the first result
-            rs.first();
+            rs.next();
             // only get the first column
             String value = rs.getString(1);
             // use the lable for the name of the metric
