@@ -59,7 +59,7 @@ public class SQLMonitor extends AManagedMonitor {
                 processMetricPrefix(config.getMetricPrefix());
 
                 status = executeCommands(config, status);
-            }catch (Exception ioe) {
+            } catch (Exception ioe) {
                 logger.error("Exception", ioe);
             }
 
@@ -90,14 +90,14 @@ public class SQLMonitor extends AManagedMonitor {
                             logger.error("Didn't found statement: " + counter);
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error("Error executing query", e);
                     }
                 }
                 if (conn != null) {
                     try {
                         conn.close();
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        logger.error("Unable to close the connection", e);
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class SQLMonitor extends AManagedMonitor {
             if (conn != null) try {
                 conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Unable to close the connection", e);
             }
         }
         return status;
@@ -145,25 +145,29 @@ public class SQLMonitor extends AManagedMonitor {
         try {
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(query);
-            // only get the first result
-            rs.next();
-            // only get the first column
-            String value = rs.getString(1);
-            // use the lable for the name of the metric
-            ResultSetMetaData metaData = rs.getMetaData();
-            String name = metaData.getColumnLabel(1);
-            retval.setName(name);
-            retval.setValue(value);
+            if (rs.next()) {
+                // only get the first column
+                String value = rs.getString(1);
+                // use the lable for the name of the metric
+                ResultSetMetaData metaData = rs.getMetaData();
+                String name = metaData.getColumnLabel(1);
+                retval.setName(name);
+                retval.setValue(value);
+            } else {
+                logger.info("Got empty ResultSet for query [ " + query + " ]");
+            }
         } catch (SQLException sqle) {
             logger.error("SQLException: ", sqle);
         } finally {
             if (rs != null) try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error("Unable to close the ResultSet", e);
             }
             if (stmt != null) try {
                 stmt.close();
             } catch (SQLException e) {
+                logger.error("Unable to close the Statement", e);
             }
         }
 
