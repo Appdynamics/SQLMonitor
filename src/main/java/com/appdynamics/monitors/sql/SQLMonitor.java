@@ -4,12 +4,15 @@
  */
 package com.appdynamics.monitors.sql;
 
+import com.appdynamics.TaskInputArgs;
 import com.appdynamics.extensions.PathResolver;
+import com.appdynamics.extensions.crypto.CryptoUtil;
 import com.appdynamics.extensions.yml.YmlReader;
 import com.appdynamics.monitors.sql.config.Command;
 import com.appdynamics.monitors.sql.config.Configuration;
 import com.appdynamics.monitors.sql.config.Server;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
@@ -18,15 +21,20 @@ import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 
 public class SQLMonitor extends AManagedMonitor {
-    protected final Logger logger = Logger.getLogger(SQLMonitor.class.getName());
+    private static final Logger logger = Logger.getLogger(SQLMonitor.class);
     public String metricPrefix;
-    public static final String CONFIG_ARG = "config-file";
-    public static final String LOG_PREFIX = "log-prefix";
-    private static String logPrefix;
+    private static final String CONFIG_ARG = "config-file";
+    private static final String LOG_PREFIX = "log-prefix";
+    private String logPrefix;
 
     /**
      * This is the entry point to the monitor called by the Machine Agent
@@ -180,7 +188,7 @@ public class SQLMonitor extends AManagedMonitor {
         String driver = server.getDriver();
         String connectionString = server.getConnectionString();
         String user = server.getUser();
-        String password = server.getPassword();
+        String password = getPassword(server);
 
         // load the driver
         if (driver != null && connectionString != null) {
@@ -192,12 +200,35 @@ public class SQLMonitor extends AManagedMonitor {
         return conn;
     }
 
+    private String getPassword(Server server) {
+        String password = null;
+
+        if (!Strings.isNullOrEmpty(server.getPassword())) {
+            password = server.getPassword();
+
+        } else {
+            try {
+                Map<String, String> args = Maps.newHashMap();
+                args.put(TaskInputArgs.PASSWORD_ENCRYPTED, server.getEncryptedPassword());
+                args.put(TaskInputArgs.ENCRYPTION_KEY, server.getEncryptionKey());
+                password = CryptoUtil.getPassword(args);
+
+            } catch (IllegalArgumentException e) {
+                String msg = "Encryption Key not specified. Please set the value in config.yml.";
+                logger.error(msg);
+                throw new IllegalArgumentException(msg);
+            }
+        }
+
+        return password;
+    }
+
     public void printMetric(Data data, String displayPrefix) {
         String metricName = metricPrefix + displayPrefix.concat("|") + data.getName();
 
         // don't write empty data
         if (data.getValue() != null) {
-            logger.info("Data " + data);
+            logger.debug(String.format("Printing metric [ %s ] with value [ %s ]", metricName, data.getValue()));
             // default roll ups
             String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE;
             String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE;
@@ -241,5 +272,4 @@ public class SQLMonitor extends AManagedMonitor {
     private static String getImplementationVersion() {
         return SQLMonitor.class.getPackage().getImplementationTitle();
     }
-
 }

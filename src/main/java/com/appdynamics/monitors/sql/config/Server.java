@@ -24,6 +24,8 @@ public class Server {
     private String connectionString;
     private String user;
     private String password;
+    private String encryptedPassword;
+    private String encryptionKey;
 
     public String getDriver() {
         return driver;
@@ -64,6 +66,22 @@ public class Server {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public String getEncryptionKey() {
+        return encryptionKey;
+    }
+
+    public void setEncryptionKey(String encryptionKey) {
+        this.encryptionKey = encryptionKey;
     }
 }
 

@@ -4,7 +4,12 @@ servers:
       driver: "com.mysql.jdbc.Driver"
       connectionString: "jdbc:mysql://localhost:3306/demo"
       user: "root"
-      password: "smallwonder"
+      #Provide password or encryptedPassword and encryptionKey. See the documentation to find about password encryption.
+      password:
+
+      encryptedPassword: "IGVtC9eudmgG8RDjmRjGPQ=="
+      encryptionKey: "welcome"
+
 
 commands:
    - command: "select foo as foobar from bar where id = 10"
