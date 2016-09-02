@@ -120,9 +120,9 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 1.0
+**Version:** 1.3
 **Controller Compatibility:** 3.7 or later
-**SQL Version Tested On:** Ver 14.14 Distrib 5.6.15
+**SQL Version Tested On:** MySQL, 5.5.46
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
