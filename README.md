@@ -124,6 +124,6 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 **Controller Compatibility:** 3.7 or later
 **SQL Version Tested On:** Ver 14.14 Distrib 5.6.15
 
-[GitHub]: https://github.com/Appdynamics/SQL-monitoring-extension
+[GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
 [AppDynamics Center of Excellence]: mailto:help@appdynamics.com
