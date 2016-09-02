@@ -2,19 +2,23 @@
 servers:
     - server: "localhost"
       driver: "com.mysql.jdbc.Driver"
-      connectionString: "jdbc:mysql://localhost:3306/demo"
+      connectionString: "jdbc:mysql://localhost:3388/test"
       user: "root"
       #Provide password or encryptedPassword and encryptionKey. See the documentation to find about password encryption.
-      password:
+      password: "root"
 
-      encryptedPassword: "IGVtC9eudmgG8RDjmRjGPQ=="
-      encryptionKey: "welcome"
+      encryptedPassword:
+      encryptionKey:
+      #Transaction isolation level to apply on the connection
+      #Supported values are TRANSACTION_READ_UNCOMMITTED, TRANSACTION_READ_COMMITTED, TRANSACTION_REPEATABLE_READ and TRANSACTION_SERIALIZABLE
+      #Default is TRANSACTION_READ_UNCOMMITTED
+      isolationLevel: "TRANSACTION_READ_UNCOMMITTED"
 
 
 commands:
-   - command: "select foo as foobar from bar where id = 10"
+   - command: "select value from monitortest where id = 1"
      displayPrefix: "Expedia"
-   - command: "select foo as foobar from bar where id = 5"
+   - command: "select value from monitortest where id = 2"
      displayPrefix: "DerbySoft"
 
 # Make sure the metric prefix ends with a |

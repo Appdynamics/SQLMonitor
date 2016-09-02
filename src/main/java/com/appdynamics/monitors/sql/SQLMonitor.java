@@ -18,15 +18,20 @@ import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
 import com.singularity.ee.agent.systemagent.api.TaskOutput;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import java.io.File;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SQLMonitor extends AManagedMonitor {
@@ -88,9 +93,10 @@ public class SQLMonitor extends AManagedMonitor {
                     try {
                         int counter = 1;
                         logger.info("sql statement: " + counter++);
-                        String statement = command.getCommand().trim();
-                        String displayPrefix = command.getDisplayPrefix();
+                        String statement = command.getCommand();
+                        String displayPrefix = server.getServer()+"|"+command.getDisplayPrefix();
                         if (statement != null) {
+                            statement = statement.trim();
                             // parse into statement and roll up
                             logger.info("Running " + statement);
                             printMetric(executeQuery(conn, statement), displayPrefix);
@@ -194,6 +200,20 @@ public class SQLMonitor extends AManagedMonitor {
         if (driver != null && connectionString != null) {
             Class.forName(driver);
             conn = DriverManager.getConnection(connectionString, user, password);
+
+            if (conn.getMetaData().supportsTransactions()) {
+                int isolationLevel = Server.IsolationLevel.getIsolationLevel(server.getIsolationLevel());
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Isolation level provided is [" + server.getIsolationLevel() + "] and setting the isolation level as [" + isolationLevel + "]");
+                }
+
+                logger.info("Setting isolation level as [" + isolationLevel + "]");
+
+                conn.setTransactionIsolation(isolationLevel);
+            } else {
+                logger.info("Transactions are not supported so ignoring the isolation level.");
+            }
             logger.info("Got connection " + conn);
         }
 
@@ -272,4 +292,26 @@ public class SQLMonitor extends AManagedMonitor {
     private static String getImplementationVersion() {
         return SQLMonitor.class.getPackage().getImplementationTitle();
     }
+
+    public static void main(String[] args) throws TaskExecutionException {
+
+
+        ConsoleAppender ca = new ConsoleAppender();
+        ca.setWriter(new OutputStreamWriter(System.out));
+        ca.setLayout(new PatternLayout("%-5p [%t]: %m%n"));
+        ca.setThreshold(Level.TRACE);
+
+        logger.getRootLogger().addAppender(ca);
+
+        SQLMonitor monitor = new SQLMonitor();
+
+        Map<String, String> taskArgs = new HashMap<String, String>();
+        taskArgs.put(CONFIG_ARG, "/Users/Muddam/AppDynamics/Code/extensions/SQLMonitor/src/main/resources/conf/config.yml");
+        taskArgs.put(LOG_PREFIX, "[SQLMonitorAppDExt] ");
+
+
+        monitor.execute(taskArgs, null);
+
+    }
+
 }

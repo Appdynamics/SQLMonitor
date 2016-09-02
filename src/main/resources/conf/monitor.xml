@@ -20,7 +20,7 @@
             <argument name="log-prefix" is-required="false" default-value="[SQLMonitorAppDExt] " />
         </task-arguments>
         <java-task>
-            <!-- Use regular classpath foo.jar:bar.jar -->
+            <!-- Use regular classpath foo.jar;bar.jar -->
             <!-- append JDBC driver jar -->
             <classpath>sql-monitoring-extension.jar</classpath>
             <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>

@@ -1,12 +1,12 @@
 /**
  * Copyright 2014 AppDynamics
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,31 @@ public class Server {
     private String password;
     private String encryptedPassword;
     private String encryptionKey;
+    private String isolationLevel;
+
+    public enum IsolationLevel {
+        TRANSACTION_READ_UNCOMMITTED(1), TRANSACTION_READ_COMMITTED(2), TRANSACTION_REPEATABLE_READ(4), TRANSACTION_SERIALIZABLE(8);
+
+        int isolationLevel;
+
+        IsolationLevel(int isolationLevel) {
+            this.isolationLevel = isolationLevel;
+        }
+
+        public static int getIsolationLevel(String level) {
+
+            int isolationLevelForString = IsolationLevel.TRANSACTION_READ_UNCOMMITTED.isolationLevel;
+            for (IsolationLevel txIsolationLevel : IsolationLevel.values()) {
+                if (txIsolationLevel.name().equals(level)) {
+                    isolationLevelForString = txIsolationLevel.isolationLevel;
+                    break;
+                }
+            }
+            return isolationLevelForString;
+        }
+
+    }
+
 
     public String getDriver() {
         return driver;
@@ -83,5 +108,14 @@ public class Server {
     public void setEncryptionKey(String encryptionKey) {
         this.encryptionKey = encryptionKey;
     }
+
+    public String getIsolationLevel() {
+        return isolationLevel;
+    }
+
+    public void setIsolationLevel(String isolationLevel) {
+        this.isolationLevel = isolationLevel;
+    }
+
 }
 
