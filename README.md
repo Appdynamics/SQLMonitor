@@ -34,7 +34,7 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 
 1. Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. Below is the format
 
-```
+   ```
       # Configure the SQLMonitor
       servers:
           - server: "localhost"
@@ -61,7 +61,7 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
       # Make sure the metric prefix ends with a |
 
       metricPrefix: "Custom Metrics|SQL|"
-    ```
+```
 
 2. Configure the path to the config.yaml file by editing the <task-arguments> in the monitor.xml file. Below is the sample
 
@@ -80,13 +80,13 @@ To set an encrypted password in config.yml, follow the steps below:
 1. Download the util jar to encrypt the Credentials from [here](https://github.com/Appdynamics/maven-repo/blob/master/releases/com/appdynamics/appd-exts-commons/1.1.2/appd-exts-commons-1.1.2.jar).
 2. Run command:
 
-   	~~~
+   	```
    	java -cp appd-exts-commons-1.1.2.jar com.appdynamics.extensions.crypto.Encryptor EncryptionKey CredentialToEncrypt
 
    	For example:
    	java -cp "appd-exts-commons-1.1.2.jar" com.appdynamics.extensions.crypto.Encryptor test password
 
-     ~~~
+     ```
 
 3. Set the encryptionKey field in config.yml with the encryption key used, as well as the resulting encrypted password in encryptedPassword fields.
 
