@@ -100,11 +100,10 @@ the first column name return by the query.!
 
 Example-
 
-```
 commands:
    - command: "select foo as foobar from bar where id = 10"
      displayPrefix: "Expedia"
-```
+
 For the above query metric path will be "Custom Metrics|SQL|localhost|Expedia|foobar".
 
 
