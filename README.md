@@ -36,32 +36,30 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 
    ```
       # Configure the SQLMonitor
+      # Provide password OR encryptedPassword,encryptionKey. See the documentation to find about password encryption.
+      # isolationLevel:Transaction isolation level to apply on the connection
+      #Supported values are TRANSACTION_READ_UNCOMMITTED, TRANSACTION_READ_COMMITTED, TRANSACTION_REPEATABLE_READ and TRANSACTION_SERIALIZABLE
+      #Default is TRANSACTION_READ_UNCOMMITTED
       servers:
-          - server: "localhost"
+          - displayName: "Instance1"
             driver: "com.mysql.jdbc.Driver"
-            connectionString: "jdbc:mysql://localhost:3388/test"
+            connectionString: "jdbc:mysql://localhost:3388/database1"
             user: "root"
-            #Provide password or encryptedPassword and encryptionKey. See the documentation to find about password encryption.
             password: "root"
-
-            encryptedPassword:
             encryptionKey:
-            #Transaction isolation level to apply on the connection
-            #Supported values are TRANSACTION_READ_UNCOMMITTED, TRANSACTION_READ_COMMITTED, TRANSACTION_REPEATABLE_READ and TRANSACTION_SERIALIZABLE
-            #Default is TRANSACTION_READ_UNCOMMITTED
+            encryptedPassword:
             isolationLevel: "TRANSACTION_READ_UNCOMMITTED"
-
-
-      commands:
-         - command: "select value from monitortest where id = 1"
-           displayPrefix: "Expedia"
-         - command: "select value from monitortest where id = 2"
-           displayPrefix: "DerbySoft"
-
+            commands:
+              - command: "select value from monitortest where id = 1"
+                displayPrefix: "Expedia"
+              - command: "select value from monitortest where id = 2"
+                displayPrefix: "DerbySoft"
       # Make sure the metric prefix ends with a |
-
+      #This will create this metric in all the tiers, under this path.
       metricPrefix: "Custom Metrics|SQL|"
-```
+      #This will create it in specific Tier. Replace <ComponentID> with TierID
+      #metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
+   ```
 
 2. Configure the path to the config.yaml file by editing the <task-arguments> in the monitor.xml file. Below is the sample
 
@@ -121,7 +119,7 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 1.3
+**Version:** 1.3.1
 **Controller Compatibility:** 3.7 or later
 **SQL Version Tested On:** MySQL, 5.5.46
 

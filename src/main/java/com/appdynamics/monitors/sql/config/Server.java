@@ -17,9 +17,11 @@
 package com.appdynamics.monitors.sql.config;
 
 
+import java.util.List;
+
 public class Server {
 
-    private String server;
+    private String displayName;
     private String driver;
     private String connectionString;
     private String user;
@@ -27,6 +29,7 @@ public class Server {
     private String encryptedPassword;
     private String encryptionKey;
     private String isolationLevel;
+    private List<Command> commands;
 
     public enum IsolationLevel {
         TRANSACTION_READ_UNCOMMITTED(1), TRANSACTION_READ_COMMITTED(2), TRANSACTION_REPEATABLE_READ(4), TRANSACTION_SERIALIZABLE(8);
@@ -85,12 +88,12 @@ public class Server {
     }
 
 
-    public String getServer() {
-        return server;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setServer(String server) {
-        this.server = server;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEncryptedPassword() {
@@ -117,5 +120,12 @@ public class Server {
         this.isolationLevel = isolationLevel;
     }
 
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(List<Command> commands) {
+        this.commands = commands;
+    }
 }
 

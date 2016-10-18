@@ -65,10 +65,10 @@ public class SQLMonitor extends AManagedMonitor {
                 //read the config.
                 Configuration config = YmlReader.readFromFile(configFilename, Configuration.class);
 
-                // no point continuing if we don't have this
+                /*// no point continuing if we don't have this
                 if (config.getCommands().isEmpty()) {
                     return new TaskOutput("Failure");
-                }
+                }*/
                 processMetricPrefix(config.getMetricPrefix());
 
                 status = executeCommands(config, status);
@@ -89,12 +89,12 @@ public class SQLMonitor extends AManagedMonitor {
             for (Server server : config.getServers()) {
                 conn = connect(server);
 
-                for (Command command : config.getCommands()) {
+                for (Command command : server.getCommands()) {
                     try {
                         int counter = 1;
                         logger.info("sql statement: " + counter++);
                         String statement = command.getCommand();
-                        String displayPrefix = server.getServer()+"|"+command.getDisplayPrefix();
+                        String displayPrefix = server.getDisplayName()+"|"+command.getDisplayPrefix();
                         if (statement != null) {
                             statement = statement.trim();
                             // parse into statement and roll up

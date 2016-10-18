@@ -25,7 +25,6 @@ public class Configuration {
 
     String metricPrefix;
     List<Server> servers;
-    List<Command> commands;
 
     public List<Server> getServers() {
         return servers;
@@ -43,13 +42,6 @@ public class Configuration {
         this.metricPrefix = metricPrefix;
     }
 
-    public List<Command> getCommands() {
-        return commands;
-    }
-
-    public void setCommands(List<Command> commands) {
-        this.commands = commands;
-    }
 }
 
 
