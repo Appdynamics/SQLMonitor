@@ -18,12 +18,14 @@ Put the driver JAR file in the same directory and add it to the classpath elemen
 monitor.xml file.!
 
 ###Example###
+```
 <java-task>
     <!-- Use regular classpath foo.jar;bar.jar -->
     <!-- append JDBC driver jar -->
     <classpath>sql-monitoring-extension.jar:ojdbc6-11.2.0.3.jar</classpath>
     <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
 </java-task>
+```
 
 
 ##Configuration##
