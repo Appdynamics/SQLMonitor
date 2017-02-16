@@ -8,7 +8,7 @@
     <monitor-configuration></monitor-configuration>
     <monitor-run-task>
         <execution-style>periodic</execution-style>
-        <execution-frequency-in-seconds>10</execution-frequency-in-seconds>
+        <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
         <name>SQLMonitor Task</name>
         <display-name>SQLMonitor Task</display-name>
         <description>SQLMonitor Task</description>
