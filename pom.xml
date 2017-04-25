@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>sql-monitoring-extension</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
     <packaging>jar</packaging>
     <name>sql-monitoring-extension</name>
     <url>http://maven.apache.org</url>
@@ -155,7 +155,7 @@
                                              includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
                                 <zip destfile="${target.dir}-${project.version}.zip">
-                                    <zipfileset dir="${target.dir}" filemode="755" prefix="SqlMonitor/"/>
+                                    <zipfileset dir="${target.dir}" filemode="755" prefix="SQLMonitor/"/>
                                 </zip>
                                 <delete dir="${target.dir}"/>
                             </target>

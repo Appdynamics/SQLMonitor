@@ -94,7 +94,7 @@ public class SQLMonitor extends AManagedMonitor {
                         int counter = 1;
                         logger.info("sql statement: " + counter++);
                         String statement = command.getCommand();
-                        String displayPrefix = server.getDisplayName()+"|"+command.getDisplayPrefix();
+                        String displayPrefix = server.getDisplayName() + "|" + command.getDisplayPrefix();
                         if (statement != null) {
                             statement = statement.trim();
                             // parse into statement and roll up
@@ -135,9 +135,6 @@ public class SQLMonitor extends AManagedMonitor {
 
         if (!metricPrefix.endsWith("|")) {
             metricPrefix = metricPrefix + "|";
-        }
-        if (!metricPrefix.startsWith("Custom Metrics|")) {
-            metricPrefix = "Custom Metrics|" + metricPrefix;
         }
 
         this.metricPrefix = metricPrefix;

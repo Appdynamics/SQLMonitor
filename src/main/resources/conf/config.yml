@@ -41,6 +41,6 @@ servers:
 
 # Make sure the metric prefix ends with a |
 #This will create this metric in all the tiers, under this path.
-metricPrefix: "Custom Metrics|SQL|"
+#metricPrefix: "Custom Metrics|SQL|"
 #This will create it in specific Tier. Replace <ComponentID> with TierID
-#metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
+metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
