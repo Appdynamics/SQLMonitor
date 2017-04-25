@@ -58,9 +58,9 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
                 displayPrefix: "DerbySoft"
       # Make sure the metric prefix ends with a |
       #This will create this metric in all the tiers, under this path.
-      metricPrefix: "Custom Metrics|SQL|"
+      #metricPrefix: "Custom Metrics|SQL|"
       #This will create it in specific Tier. Replace <ComponentID> with TierID
-      #metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
+      metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
    ```
 
 2. Configure the path to the config.yaml file by editing the <task-arguments> in the monitor.xml file. Below is the sample
@@ -121,7 +121,7 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 1.3.1
+**Version:** 1.3.2
 **Controller Compatibility:** 3.7 or later
 **SQL Version Tested On:** MySQL, 5.5.46
 
