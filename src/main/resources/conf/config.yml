@@ -9,34 +9,38 @@
 servers:
     - displayName: "Instance1"
       driver: "com.mysql.jdbc.Driver"
-      connectionString: "jdbc:mysql://localhost:3388/database1"
+      connectionString: "jdbc:mysql://localhost:3388/test"
       user: "root"
-      password: "root"
-      encryptionKey:
-      encryptedPassword:
+      password:
+      encryptedPassword: "IGVtC9eudmgG8RDjmRjGPQ=="
       isolationLevel: "TRANSACTION_READ_UNCOMMITTED"
-
       commands:
-        - command: "select value from monitortest where id = 1"
+        - command: "select age from test1 where age = 29"
           displayPrefix: "Expedia"
-        - command: "select value from monitortest where id = 2"
+        - command: "select age from test1 where age = 32"
           displayPrefix: "DerbySoft"
-
 
     - displayName: "Instance2"
       driver: "com.mysql.jdbc.Driver"
       connectionString: "jdbc:mysql://localhost:3388/database2"
       user: "root"
       password: "root"
-      encryptionKey:
       encryptedPassword:
       isolationLevel: "TRANSACTION_READ_UNCOMMITTED"
-
       commands:
         - command: "select value from monitortest where id = 1"
           displayPrefix: "Expedia"
         - command: "select value from monitortest where id = 2"
           displayPrefix: "DerbySoft"
+
+numberOfThreads: 5
+encryptionKey: "welcome"
+
+#Runs the queries every taskDelaySeconds configured
+taskSchedule:
+    numberOfThreads: 1
+    taskDelaySeconds: 60
+
 
 
 # Make sure the metric prefix ends with a |
