@@ -6,7 +6,7 @@
 #Supported values are TRANSACTION_READ_UNCOMMITTED, TRANSACTION_READ_COMMITTED, TRANSACTION_REPEATABLE_READ and TRANSACTION_SERIALIZABLE
 #Default is TRANSACTION_READ_UNCOMMITTED
 
-servers:
+dbServers:
     - displayName: "Instance1"
       driver: "com.mysql.jdbc.Driver"
       connectionString: "jdbc:mysql://localhost:3388/test"
@@ -30,7 +30,7 @@ servers:
       commands:
         - command: "select value from monitortest where id = 1"
           displayPrefix: "Expedia"
-        - command: "select value from monitortest where id = 2"
+        - command: "select value from monitortest where id = 2"1
           displayPrefix: "DerbySoft"
 
 numberOfThreads: 5

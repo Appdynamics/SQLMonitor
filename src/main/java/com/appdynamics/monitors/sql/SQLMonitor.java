@@ -112,7 +112,7 @@ public class SQLMonitor extends AManagedMonitor {
             }
             Map<String, ?> config = configuration.getConfigYml();
 
-            List<Map> sqlServers = (List<Map>) config.get("servers");
+            List<Map> sqlServers = (List<Map>) config.get("dbServers");
 
             for (Map sqlServer : sqlServers) {
 

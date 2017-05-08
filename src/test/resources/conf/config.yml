@@ -1,5 +1,5 @@
 # Configure the SQLMonitor
-servers:
+dbServers:
      - displayName: "Instance1"
        driver: "com.mysql.jdbc.Driver"
        connectionString: "jdbc:mysql://localhost:3388/test"
