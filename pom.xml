@@ -17,6 +17,7 @@
         <target.dir>${project.build.directory}/SQLMonitor</target.dir>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>com.appdynamics</groupId>
