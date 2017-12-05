@@ -23,6 +23,8 @@
             <!-- Use regular classpath foo.jar;bar.jar -->
             <!-- append JDBC driver jar -->
             <classpath>sql-monitoring-extension.jar</classpath>
+            <!--     <classpath>vertica-monitoring-extension.jar;jar-file-t0-connect-to-db.jar</classpath> -->
+
             <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
         </java-task>
     </monitor-run-task>
