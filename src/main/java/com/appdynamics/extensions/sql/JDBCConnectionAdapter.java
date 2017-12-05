@@ -1,11 +1,11 @@
 package com.appdynamics.extensions.sql;
 
 
+import com.google.common.base.Strings;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyPermission;
-import com.google.common.base.Strings;
 
 
 public class JDBCConnectionAdapter {

@@ -8,7 +8,7 @@
     <monitor-configuration></monitor-configuration>
     <monitor-run-task>
         <execution-style>periodic</execution-style>
-        <execution-frequency-in-seconds>10</execution-frequency-in-seconds>
+        <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
         <name>SQLMonitor Task</name>
         <display-name>SQLMonitor Task</display-name>
         <description>SQLMonitor Task</description>
@@ -20,9 +20,11 @@
             <argument name="log-prefix" is-required="false" default-value="[SQLMonitorAppDExt] " />
         </task-arguments>
         <java-task>
-            <!-- Use regular classpath foo.jar:bar.jar -->
+            <!-- Use regular classpath foo.jar;bar.jar -->
             <!-- append JDBC driver jar -->
-            <classpath>SQLMonitor.jar</classpath>
+            <classpath>sql-monitoring-extension.jar</classpath>
+            <!--     <classpath>vertica-monitoring-extension.jar;jar-file-t0-connect-to-db.jar</classpath> -->
+
             <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
         </java-task>
     </monitor-run-task>

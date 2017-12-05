@@ -11,7 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -113,7 +116,7 @@ public class SQLMonitor extends ABaseMonitor {
     }
 
     private String getEncryptedPassword(String encryptionKey, String encryptedPassword) {
-        java.util.Map<String, String> cryptoMap = Maps.newHashMap();
+        Map<String, String> cryptoMap = Maps.newHashMap();
         cryptoMap.put(PASSWORD_ENCRYPTED, encryptedPassword);
         cryptoMap.put(TaskInputArgs.ENCRYPTION_KEY, encryptionKey);
         return CryptoUtil.getPassword(cryptoMap);
