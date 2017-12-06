@@ -1,6 +1,6 @@
 # Make sure the metric prefix ends with a |
 #This will create this metric in all the tiers, under this path.
-#metricPrefix: "Custom Metrics|Vertica|"
+#metricPrefix: "Custom Metrics|SQL|"
 #This will create it in specific Tier. Replace <ComponentID> with TierID
 metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
 
@@ -76,32 +76,6 @@ dbServers:
                   "UNSAFE" : 4
                   "SHUTDOWN" : 5
                   "RECOVERING" : 6
-
-        - displayName: "System Resource Usage"
-          queryStmt: "SELECT NODE_NAME, AVERAGE_MEMORY_USAGE_PERCENT, AVERAGE_CPU_USAGE_PERCENT, NET_RX_KBYTES_PER_SECOND, NET_TX_KBYTES_PER_SECOND, IO_READ_KBYTES_PER_SECOND, IO_WRITTEN_KBYTES_PER_SECOND FROM SYSTEM_RESOURCE_USAGE"
-          columns:
-            - name: "NODE_NAME"
-              type: "metricPathName"
-
-            - name: "AVERAGE_MEMORY_USAGE_PERCENT"
-              type: "metricValue"
-
-            - name: "AVERAGE_CPU_USAGE_PERCENT"
-              type: "metricValue"
-
-            - name: "NET_RX_KBYTES_PER_SECOND"
-              type: "metricValue"
-
-            - name: "NET_TX_KBYTES_PER_SECOND"
-              type: "metricValue"
-
-            - name: "IO_READ_KBYTES_PER_SECOND"
-              type: "metricValue"
-
-            - name: "IO_WRITTEN_KBYTES_PER_SECOND"
-              type: "metricValue"
-
-
 
 
 numberOfThreads: 5

@@ -1,11 +1,15 @@
 SQL Monitoring Extension
 ====================================
 
-## Introduction ##
+## Use Case ##
+This extension can be used to query an SQL Database and the resulting values can be used as metrics on AppDynamics.
+The connection to the database is established through a JDBC connect and you will have to use a "connector" JAR file in order to have the extension connect and query the database.
 
-The purpose of this monitor is to use arbitrary queries against a SQL database as metrics
-for AppDynamics. The connection to the database is via JDBC.
+The metrics reported by the extension can be modified as per the user's requirements. This extension can be used to query and pull metrics from any SQL based database.
 
+### Prerequisites ###
+1. This extension requires a AppDynamics Java Machine Agent installed and running.
+2. This extension requires that the user provide their own Jar file in order to connect to the Database. 
 
 ## Installation ##
 
@@ -13,22 +17,23 @@ for AppDynamics. The connection to the database is via JDBC.
    You can also download the SQLMonitor.zip from [AppDynamics Exchange][].
 2. Unzip as "SQLMonitor" and copy the "SQLMonitor" directory to `<MACHINE_AGENT_HOME>/monitors`.
 
-You will need to provide your own JDBC driver for the database you want to connect to.
-Put the driver JAR file in the same directory and add it to the classpath element in the
+    Note: You will need to provide your own JDBC driver for the database you want to connect to. Put the driver JAR file in the same directory and add it to the classpath element in the
 monitor.xml file.!
 
-###Example###
+### Example ###
 ```
 <java-task>
     <!-- Use regular classpath foo.jar;bar.jar -->
     <!-- append JDBC driver jar -->
-    <classpath>sql-monitoring-extension.jar:ojdbc6-11.2.0.3.jar</classpath>
+    <classpath>sql-monitoring-extension.jar:Jar-File-For_Your-DB.jar</classpath>
     <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
 </java-task>
 ```
+3. Edit the config.yaml file. An example config.yaml file follows these installation instructions.
+4. Restart the Machine Agent.
 
 
-##Configuration##
+## Configuration ##
 
 
 ###Note
@@ -37,41 +42,90 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 1. Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. Below is the format
 
    ```
-      # Configure the SQLMonitor
-      # Provide password OR encryptedPassword,encryptionKey. See the documentation to find about password encryption.
-      # isolationLevel:Transaction isolation level to apply on the connection
-      #Supported values are TRANSACTION_READ_UNCOMMITTED, TRANSACTION_READ_COMMITTED, TRANSACTION_REPEATABLE_READ and TRANSACTION_SERIALIZABLE
-      #Default is TRANSACTION_READ_UNCOMMITTED
-      servers:
-          - displayName: "Instance1"
-            driver: "com.mysql.jdbc.Driver"
-            connectionString: "jdbc:mysql://localhost:3388/database1"
-            user: "root"
-            password: "root"
-            encryptionKey:
-            encryptedPassword:
-            isolationLevel: "TRANSACTION_READ_UNCOMMITTED"
-            commands:
-              - command: "select value from monitortest where id = 1"
-                displayPrefix: "Expedia"
-              - command: "select value from monitortest where id = 2"
-                displayPrefix: "DerbySoft"
-      # Make sure the metric prefix ends with a |
-      #This will create this metric in all the tiers, under this path.
-      #metricPrefix: "Custom Metrics|SQL|"
-      #This will create it in specific Tier. Replace <ComponentID> with TierID
-      metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
+   # Make sure the metric prefix ends with a |
+   #This will create this metric in all the tiers, under this path.
+   #metricPrefix: "Custom Metrics|SQL|"
+   #This will create it in specific Tier. Replace <ComponentID> with TierID
+   metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
+   
+   
+   dbServers:
+       - displayName: "Instance1"
+         connectionUrl: ""
+         driver: ""
+   
+         connectionProperties:
+           - user: ""
+           - password: ""
+   
+         #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password
+         #encryptedPassword: ""
+   
+         #Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
+         #encryptionKey: "welcome"
+   
+         # Replaces characters in metric name with the specified characters.
+         # "replace" takes any regular expression
+         # "replaceWith" takes the string to replace the matched characters
+   
+         metricCharacterReplacer:
+           - replace: "%"
+             replaceWith: ""
+           - replace: ","
+             replaceWith: "-"
+   
+   
+         queries:
+           - displayName: "Active Events"
+             queryStmt: "Select NODE_NAME, EVENT_CODE, EVENT_ID, EVENT_POSTED_COUNT from Active_events"
+             columns:
+               - name: "NODE_NAME"
+                 type: "metricPathName"
+   
+               - name: "EVENT_ID"
+                 type: "metricPathName"
+   
+               - name: "EVENT_CODE"
+                 type: "metricValue"
+   
+               - name: "EVENT_POSTED_COUNT"
+                 type: "metricValue"
+   
+           - displayName: "IO Usage"
+             queryStmt: "Select NODE_NAME, READ_KBYTES_PER_SEC, WRITTEN_KBYTES_PER_SEC from IO_USAGE"
+             columns:
+               - name: "NODE_NAME"
+                 type: "metricPathName"
+   
+               - name: "READ_KBYTES_PER_SEC"
+                 type: "metricValue"
+   
+               - name: "WRITTEN_KBYTES_PER_SEC"
+                 type: "metricValue"
+   
+           - displayName: "Node Status"
+             queryStmt: "Select NODE_NAME, NODE_STATE from NODE_STATES"
+             columns:
+               - name: "NODE_NAME"
+                 type: "metricPathName"
+   
+               - name: "NODE_STATE"
+                 type: "metricValue"
+                 properties:
+                   convert:
+                     "INITIALIZING" : 0
+                     "UP" : 1
+                     "DOWN" : 2
+                     "READY" : 3
+                     "UNSAFE" : 4
+                     "SHUTDOWN" : 5
+                     "RECOVERING" : 6
+   
+   
+   numberOfThreads: 5
+   
+
    ```
-
-2. Configure the path to the config.yaml file by editing the <task-arguments> in the monitor.xml file. Below is the sample
-
-     ```
-         <task-arguments>
-             <!-- config file-->
-                <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml"     />
-              ....
-         </task-arguments>
-     ```
 
 ##Credentials Encryption##
 
@@ -94,9 +148,8 @@ To set an encrypted password in config.yml, follow the steps below:
 ##Metric Queries##
 
 Only queries that start with SELECT are allowed.!
-The queries to get the metric values from the database should only return one row and
-one column, additional rows and columns will be ignored. The name of the metric will be
-the first column name return by the query.!
+The queries to get the metric values from the database should only return one row but can return multiple columns. The name of the metric will be
+the "name" value that you specify in the config.yml and that matches with the metricValue return by the query.!
 
 Example-
 
