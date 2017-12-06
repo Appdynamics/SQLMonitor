@@ -182,9 +182,11 @@ Find out more in the [AppDynamics Exchange].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence].
 
-**Version:** 1.4
-**Controller Compatibility:** 3.7 or later
-**SQL Version Tested On:** MySQL, 5.5.46
+| Param | Description |
+| ----- | ----- |
+| Version |1.4   |
+| Controller Compatibility |  3.7 or later  |
+| SQL Version Tested On | SQL 4.1,4.2, MySQL |
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
