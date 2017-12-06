@@ -158,13 +158,13 @@ Looking at the following sample query :
 ```
 
 1. **queries** : You can add multiple queries under this field. 
-    a. **displayName** : The name you would like to give to the metrics produced by this query. 
-    b. **queryStmt** : This will be your SQL Query that will be used to query the database.
-    c. **columns**: Under this field you will have to list all the columns that you are trying to get values from.
+    1. **displayName** : The name you would like to give to the metrics produced by this query. 
+    2. **queryStmt** : This will be your SQL Query that will be used to query the database.
+    3. **columns**: Under this field you will have to list all the columns that you are trying to get values from.
         1. **name** : The name of the column you would like to see on the metric browser.
         2. **type** : This value will define if the value returned from the column will be used for the name of the metric or if it is going to be the value of the metric.
-            a. **metricPathName** : If you select this, this value will be added to the metric path for the metric.
-            b. **metricValue** : If you select this, then the value returned will become your metric value that will correspond to the name you specified above.
+            1. **metricPathName** : If you select this, this value will be added to the metric path for the metric.
+            2. **metricValue** : If you select this, then the value returned will become your metric value that will correspond to the name you specified above.
             
 For the query listed above, there will be two metrics returned as we have two columns of type "metricValue".
 The metric path for them will be : 
