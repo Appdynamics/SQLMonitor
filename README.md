@@ -164,23 +164,29 @@ commands:
 For the above query metric path will be "Custom Metrics|SQL|localhost|Expedia|foobar".
 
 
+## Troubleshooting ##
+
+Please follow the steps listed in this [troubleshooting-document] in order to troubleshoot your issue. 
+These are a set of common issues that customers might have faced during the installation of the extension. 
+If these don't solve your issue, please follow the last step on the [troubleshooting-document] to contact the support team.
 
 ## Contributing ##
 
-Always feel free to fork and contribute any changes directly via [GitHub][].
+Always feel free to fork and contribute any changes directly via [GitHub](https://github.com/Appdynamics/SQLMonitor).
 
 ## Community ##
 
-Find out more in the [AppDynamics Exchange][].
+Find out more in the [AppDynamics Exchange].
 
 ## Support ##
 
-For any questions or feature request, please contact [AppDynamics Center of Excellence][].
+For any questions or feature request, please contact [AppDynamics Center of Excellence].
 
-**Version:** 1.3.2
+**Version:** 1.4
 **Controller Compatibility:** 3.7 or later
 **SQL Version Tested On:** MySQL, 5.5.46
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
 [AppDynamics Center of Excellence]: mailto:help@appdynamics.com
+[troubleshooting-document]: https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695
