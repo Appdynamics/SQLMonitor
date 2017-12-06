@@ -128,6 +128,49 @@ You can find a sample config.yaml file below.
 
    ```
 
+
+
+### Explanation of the type of queries that are supported with this extension ###
+Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
+It is suggested that you only  return one row at a time because if it returns a full table with enormous amount of data, it may overwhelm the system and it may take a very long time to fetch that data.  
+The extension does support getting values from multiple columns at once but it can only pull the metrics from the latest value from the row returned.
+
+The name of the metric displayed on the **Metric Browser** will be the "name" value that you specify in the config.yml for that metric. 
+Looking at the following sample query : 
+
+```
+ queries:
+   - displayName: "Active Events"
+     queryStmt: "Select NODE_NAME, EVENT_CODE, EVENT_ID, EVENT_POSTED_COUNT from Active_events"
+     columns:
+       - name: "NODE_NAME"
+         type: "metricPathName"
+
+       - name: "EVENT_ID"
+         type: "metricPathName"
+
+       - name: "EVENT_CODE"
+         type: "metricValue"
+
+       - name: "EVENT_POSTED_COUNT"
+         type: "metricValue"
+
+```
+
+1. **queries** : You can add multiple queries under this field. 
+    a. **displayName** : The name you would like to give to the metrics produced by this query. 
+    b. **queryStmt** : This will be your SQL Query that will be used to query the database.
+    c. **columns**: Under this field you will have to list all the columns that you are trying to get values from.
+        1. **name** : The name of the column you would like to see on the metric browser.
+        2. **type** : This value will define if the value returned from the column will be used for the name of the metric or if it is going to be the value of the metric.
+            a. **metricPathName** : If you select this, this value will be added to the metric path for the metric.
+            b. **metricValue** : If you select this, then the value returned will become your metric value that will correspond to the name you specified above.
+            
+For the query listed above, there will be two metrics returned as we have two columns of type "metricValue".
+The metric path for them will be : 
+1. Custom Metrics|SQL|Instance1|Active Events|NODE_NAME|EVENT_ID|EVENT_CODE
+2. Custom Metrics|SQL|Instance1|Active Events|NODE_NAME|EVENT_ID|EVENT_POSTED_COUNT
+
 ## Credentials Encryption ##
 
 Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
@@ -146,22 +189,6 @@ To set an encrypted password in config.yml, follow the steps below:
      ```
 
 3. Set the encryptionKey field in config.yml with the encryption key used, as well as the resulting encrypted password in encryptedPassword fields.
-
-
-## Metric Queries ##
-
-Only queries that start with SELECT are allowed.!
-The queries to get the metric values from the database should only return one row but can return multiple columns. The name of the metric will be
-the "name" value that you specify in the config.yml and that matches with the metricValue return by the query.!
-
-Example-
-
-```
-commands:
-   - command: "select foo as foobar from bar where id = 10"
-     displayPrefix: "Expedia"
-```
-For the above query metric path will be "Custom Metrics|SQL|localhost|Expedia|foobar".
 
 
 ## Troubleshooting ##
