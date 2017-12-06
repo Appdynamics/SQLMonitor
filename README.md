@@ -36,7 +36,7 @@ monitor.xml file.!
 ## Configuration ##
 
 
-###Note
+### Note ###
 Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
 1. Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. Below is the format
@@ -127,7 +127,9 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 
    ```
 
-##Credentials Encryption##
+## Credentials Encryption ##
+
+Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
 
 To set an encrypted password in config.yml, follow the steps below:
 
