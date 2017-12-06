@@ -36,10 +36,11 @@ monitor.xml file.!
 ## Configuration ##
 
 
-### Note ###
-Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
+**Note** : Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
-1. Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. Below is the format
+You will have to Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. 
+The information provided in this file will be used to connect and query the database. 
+You can find a sample config.yaml file below.
 
    ```
    # Make sure the metric prefix ends with a |
@@ -147,7 +148,7 @@ To set an encrypted password in config.yml, follow the steps below:
 3. Set the encryptionKey field in config.yml with the encryption key used, as well as the resulting encrypted password in encryptedPassword fields.
 
 
-##Metric Queries##
+## Metric Queries ##
 
 Only queries that start with SELECT are allowed.!
 The queries to get the metric values from the database should only return one row but can return multiple columns. The name of the metric will be
