@@ -132,7 +132,9 @@ You can find a sample config.yaml file below.
 
 ### Explanation of the type of queries that are supported with this extension ###
 Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
+
 It is suggested that you only  return one row at a time because if it returns a full table with enormous amount of data, it may overwhelm the system and it may take a very long time to fetch that data.  
+
 The extension does support getting values from multiple columns at once but it can only pull the metrics from the latest value from the row returned.
 
 The name of the metric displayed on the **Metric Browser** will be the "name" value that you specify in the config.yml for that metric. 
