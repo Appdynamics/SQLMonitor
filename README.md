@@ -159,6 +159,11 @@ dbServers:
 In this case we do add the Database Name as the last part of the connectionUrl but the rest of the properties are provided as connectionProperties. 
 You will have to confirm how your database takes in the login information and based on that provide the information in your config.yaml in order to successfully establish a connection.
 
+## Credentials Encryption ##
+
+Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
+
+
 ### Explanation of the type of queries that are supported with this extension ###
 Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
 
@@ -229,10 +234,6 @@ The extension will automatically convert the text value to the corresponding num
 
 **NOTE:** In order to use this feature, please make sure that the value that is being returned is EXACTLY the same as you have listed in the config.yaml, otherwise the extension will throw an error.
  
-## Credentials Encryption ##
-
-Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
-
 ## Troubleshooting ##
 
 Please follow the steps listed in this [troubleshooting-document] in order to troubleshoot your issue. 
