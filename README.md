@@ -128,7 +128,36 @@ You can find a sample config.yaml file below.
 
    ```
 
+### How to Connect to your Database with the extension ###
+Lets take a look at some sample connection information: 
+```
+dbServers:
+    - displayName: "Instance1"
+      connectionUrl: "jdbc:sqlserver://192.168.57.101:1433;user=bhuv;password=12345;databaseName=frb-test;"
+      driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 
+      connectionProperties:
+#        - user: ""
+#        - password: ""
+
+```
+In order to connect to any database, you will have to provide a connectionUrl. 
+In the example above we see that we the extension is connection to the sqlserver using the connectionUrl. In this case we are also providing the username, password and the databaseName in the same connectionUrl.
+This may not be the same for other types of SQL based systems. Another way you can connect to the database is as following: 
+
+```
+dbServers:
+    - displayName: "Instance2"
+      connectionUrl: "jdbc:vertica://192.168.57.102:5433/VMart"
+      driver: "com.vertica.jdbc.Driver"
+
+      connectionProperties:
+        - user: "dbadmin"
+        - password: "password"
+
+```
+In this case we do add the Database Name as the last part of the connectionUrl but the rest of the properties are provided as connectionProperties. 
+You will have to confirm how your database takes in the login information and based on that provide the information in your config.yaml in order to successfully establish a connection.
 
 ### Explanation of the type of queries that are supported with this extension ###
 Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
