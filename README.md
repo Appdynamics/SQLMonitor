@@ -15,9 +15,9 @@ The metrics reported by the extension can be modified as per the user's requirem
 
 1. To build from the source, run "mvn clean install" and find the SQLMonitor.zip file in the "target" folder.
    You can also download the SQLMonitor.zip from [AppDynamics Exchange][].
-2. Unzip as "SQLMonitor" and copy the "SQLMonitor" directory to `<MACHINE_AGENT_HOME>/monitors`.
+2. Unzip as "SQLMonitor" and copy the **"SQLMonitor"** directory to `<MACHINE_AGENT_HOME>/monitors`.
 
-    Note: You will need to provide your own JDBC driver for the database you want to connect to. Put the driver JAR file in the same directory and add it to the classpath element in the
+    **Note:** You will need to provide your own **JDBC** driver for the database you want to connect to. Put the driver JAR file in the same directory and add it to the classpath element in the
 monitor.xml file.!
 
 ### Example ###
