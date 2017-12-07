@@ -142,8 +142,11 @@ dbServers:
 
 ```
 In order to connect to any database, you will have to provide a connectionUrl. 
-In the example above we see that we the extension is connection to the sqlserver using the connectionUrl. In this case we are also providing the username, password and the databaseName in the same connectionUrl.
-This may not be the same for other types of SQL based systems. Another way you can connect to the database is as following: 
+In the example above we see that we the extension is connection to the "sqlserver" using the connectionUrl. 
+In this case we are also providing the username, password and the databaseName in the same connectionUrl and therefore the "user" and "password" fields are commented out.
+This may not be the same for other types of SQL based systems. 
+
+Lets take a look at another way you can connect to the database: 
 
 ```
 dbServers:
@@ -156,7 +159,7 @@ dbServers:
         - password: "password"
 
 ```
-In this case we do add the Database Name as the last part of the connectionUrl but the rest of the properties are provided as connectionProperties. 
+In this case we do add the Database Name as the last part of the connectionUrl **(VMart)** but all other properties like the **username** and **password** are provided as **connectionProperties**. 
 You will have to confirm how your database takes in the login information and based on that provide the information in your config.yaml in order to successfully establish a connection.
 
 ## Credentials Encryption ##
