@@ -127,7 +127,7 @@ public class SQLMonitor extends ABaseMonitor {
         final SQLMonitor monitor = new SQLMonitor();
         final Map<String, String> taskArgs = new HashMap<String, String>();
 
-        taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config_generic.yml");
+        taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config.yml");
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(new Runnable() {

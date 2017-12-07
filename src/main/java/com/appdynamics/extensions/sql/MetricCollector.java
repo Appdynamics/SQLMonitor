@@ -64,7 +64,7 @@ public class MetricCollector {
             }
         }
 
-//        print(list_of_metrics);
+        print(list_of_metrics);
         return list_of_metrics;
     }
 
