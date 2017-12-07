@@ -171,25 +171,36 @@ The metric path for them will be :
 1. Custom Metrics|SQL|Instance1|Active Events|NODE_NAME|EVENT_ID|EVENT_CODE
 2. Custom Metrics|SQL|Instance1|Active Events|NODE_NAME|EVENT_ID|EVENT_POSTED_COUNT
 
+Lets look at another query.
+```
+           - displayName: "Node Status"
+             queryStmt: "Select NODE_NAME, NODE_STATE from NODE_STATES"
+             columns:
+               - name: "NODE_NAME"
+                 type: "metricPathName"
+   
+               - name: "NODE_STATE"
+                 type: "metricValue"
+                 properties:
+                   convert:
+                     "INITIALIZING" : 0
+                     "UP" : 1
+                     "DOWN" : 2
+                     "READY" : 3
+                     "UNSAFE" : 4
+                     "SHUTDOWN" : 5
+                     "RECOVERING" : 6
+
+```
+Lets say if your query returns a text value, but you would still like to see it in the metric browser. 
+In order to make that happen, you could use the **"convert"** property and assign each value a number. 
+The extension will automatically convert the text value to the corresponding number.
+
+**NOTE:** In order to use this feature, please make sure that the value that is being returned is EXACTLY the same as you have listed in the config.yaml, otherwise the extension will throw an error.
+ 
 ## Credentials Encryption ##
 
 Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
-
-To set an encrypted password in config.yml, follow the steps below:
-
-1. Download the util jar to encrypt the Credentials from [here](https://github.com/Appdynamics/maven-repo/blob/master/releases/com/appdynamics/appd-exts-commons/1.1.2/appd-exts-commons-1.1.2.jar).
-2. Run command:
-
-   	```
-   	java -cp appd-exts-commons-1.1.2.jar com.appdynamics.extensions.crypto.Encryptor EncryptionKey CredentialToEncrypt
-
-   	For example:
-   	java -cp "appd-exts-commons-1.1.2.jar" com.appdynamics.extensions.crypto.Encryptor test password
-
-     ```
-
-3. Set the encryptionKey field in config.yml with the encryption key used, as well as the resulting encrypted password in encryptedPassword fields.
-
 
 ## Troubleshooting ##
 
