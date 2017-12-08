@@ -31,12 +31,12 @@ public class SQLMonitor extends ABaseMonitor {
 
     @Override
     protected String getDefaultMetricPrefix() {
-        return "Custom Metrics|Vertica";
+        return "Custom Metrics|SQL";
     }
 
     @Override
     public String getMonitorName() {
-        return "Vertica Monitor";
+        return "SQL Monitor";
     }
 
     @Override
@@ -90,17 +90,22 @@ public class SQLMonitor extends ABaseMonitor {
         Map<String, String> connectionProperties = new LinkedHashMap<String, String>();
         List<Map<String, String>> listOfMaps = (List<Map<String, String>>) server.get("connectionProperties");
 
-        for (Map amap : listOfMaps) {
-            for (Object key : amap.keySet()) {
-                if (key == "password") {
-                    String password = getPassword(server, (String) amap.get(key));
-                    connectionProperties.put((String) key, password);
-                } else {
-                    connectionProperties.put((String) key, (String) amap.get(key));
+        if(listOfMaps != null){
+            for (Map amap : listOfMaps) {
+                for (Object key : amap.keySet()) {
+                    if (key == "password") {
+                        String password = getPassword(server, (String) amap.get(key));
+                        connectionProperties.put((String) key, password);
+                    } else {
+                        connectionProperties.put((String) key, (String) amap.get(key));
+                    }
                 }
             }
+            return connectionProperties;
+
         }
-        return connectionProperties;
+
+        return null;
     }
 
     private String getPassword(Map server, String normal_password) {

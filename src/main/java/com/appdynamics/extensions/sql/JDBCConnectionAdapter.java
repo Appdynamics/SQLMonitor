@@ -33,10 +33,13 @@ public class JDBCConnectionAdapter {
         Properties properties = new Properties();
         properties.put("ReadOnly", "true");
 
-        for(String key: connectionProperties.keySet())
-        {
-            if(!Strings.isNullOrEmpty(connectionProperties.get(key)))
-                properties.put(key, connectionProperties.get(key));
+        if(connectionProperties != null){
+            for(String key: connectionProperties.keySet())
+            {
+                if(!Strings.isNullOrEmpty(connectionProperties.get(key)))
+                    properties.put(key, connectionProperties.get(key));
+            }
+
         }
 
 
