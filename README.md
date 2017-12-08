@@ -136,17 +136,22 @@ dbServers:
       connectionUrl: "jdbc:sqlserver://192.168.57.101:1433;user=bhuv;password=12345;databaseName=frb-test;"
       driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 
-      connectionProperties:
+#      connectionProperties:
 #        - user: ""
 #        - password: ""
 
 ```
 In order to connect to any database, you will have to provide a connectionUrl. 
 In the example above we see that we the extension is connection to the "sqlserver" using the connectionUrl. 
-In this case we are also providing the username, password and the databaseName in the same connectionUrl and therefore the "user" and "password" fields are commented out.
-This may not be the same for other types of SQL based systems. 
+In this case we are also providing the username, password and the databaseName in the same connectionUrl 
+and therefore the "connectionProperties" and the fields under it, "user" and "password", are commented out. 
+You have to make sure that if you are not sending any connectionProperties to create a 
+connection, then you should comment the whole thing out just like in the example. 
 
-Lets take a look at another way you can connect to the database: 
+As this may not be the same for other types of SQL based systems, lets take
+ a look at another way you can connect to the database.
+In this case we do need to provide properties such as a username and a password and 
+therefore we uncomment those lines and update them with valid information.
 
 ```
 dbServers:
