@@ -6,6 +6,7 @@ import com.appdynamics.extensions.TasksExecutionServiceProvider;
 import com.appdynamics.extensions.crypto.CryptoUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
