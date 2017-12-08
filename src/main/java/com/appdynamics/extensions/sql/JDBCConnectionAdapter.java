@@ -27,11 +27,9 @@ public class JDBCConnectionAdapter {
 
     Connection open(String driver) throws SQLException, ClassNotFoundException {
         Connection connection;
-        //System.out.println()
         Class.forName(driver);
 
         Properties properties = new Properties();
-        properties.put("ReadOnly", "true");
 
         if(connectionProperties != null){
             for(String key: connectionProperties.keySet())
@@ -41,7 +39,6 @@ public class JDBCConnectionAdapter {
             }
 
         }
-
 
         connection = DriverManager.getConnection(connUrl,properties);
         return connection;
