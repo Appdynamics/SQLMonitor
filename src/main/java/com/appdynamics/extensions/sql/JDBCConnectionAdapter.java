@@ -14,14 +14,13 @@ public class JDBCConnectionAdapter {
     private final Map<String, String> connectionProperties;
 
 
-
-    private JDBCConnectionAdapter(String connStr, Map<String, String> connectionProperties){
+    private JDBCConnectionAdapter(String connStr, Map<String, String> connectionProperties) {
         this.connUrl = connStr;
         this.connectionProperties = connectionProperties;
 
     }
 
-    static JDBCConnectionAdapter create(String connUrl,  Map<String, String> connectionProperties){
+    static JDBCConnectionAdapter create(String connUrl, Map<String, String> connectionProperties) {
         return new JDBCConnectionAdapter(connUrl, connectionProperties);
     }
 
@@ -31,16 +30,13 @@ public class JDBCConnectionAdapter {
 
         Properties properties = new Properties();
 
-        if(connectionProperties != null){
-            for(String key: connectionProperties.keySet())
-            {
-                if(!Strings.isNullOrEmpty(connectionProperties.get(key)))
+        if (connectionProperties != null) {
+            for (String key : connectionProperties.keySet()) {
+                if (!Strings.isNullOrEmpty(connectionProperties.get(key)))
                     properties.put(key, connectionProperties.get(key));
             }
-
         }
-
-        connection = DriverManager.getConnection(connUrl,properties);
+        connection = DriverManager.getConnection(connUrl, properties);
         return connection;
     }
 
@@ -48,7 +44,7 @@ public class JDBCConnectionAdapter {
         return stmt.executeQuery(query);
     }
 
-    void closeStatement(Statement statement) throws SQLException{
+    void closeStatement(Statement statement) throws SQLException {
         statement.close();
     }
 

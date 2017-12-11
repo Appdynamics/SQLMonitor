@@ -16,17 +16,16 @@
         <execution-timeout-in-seconds>120</execution-timeout-in-seconds>
         <task-arguments>
             <!-- config file-->
-            <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml"     />
-            <argument name="log-prefix" is-required="false" default-value="[SQLMonitorAppDExt] " />
+            <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml"/>
         </task-arguments>
         <java-task>
             <!-- Use regular classpath foo.jar;bar.jar -->
-            <!-- append JDBC driver jar -->
-            <classpath>sql-monitoring-extension.jar</classpath>
-            <!--     <classpath>vertica-monitoring-extension.jar;jar-file-t0-connect-to-db.jar</classpath> -->
+            <!-- append JDBC driver jar like the following example:  -->
+            <!-- <classpath>sql-monitoring-extension.jar;jar-file-t0-connect-to-db.jar</classpath> -->
 
-            <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
+            <classpath>sql-monitoring-extension.jar</classpath>
+
+            <impl-class>com.appdynamics.extensions.sql.SQLMonitor</impl-class>
         </java-task>
     </monitor-run-task>
-    
 </monitor>

@@ -24,25 +24,11 @@ public class SQLMonitorTest {
 
 
     @Test
-    public void testSQLMonitoringExtension () throws TaskExecutionException{
+    public void testSQLMonitoringExtension() throws TaskExecutionException {
         Map<String, String> taskArgs = new HashMap<String, String>();
         taskArgs.put(CONFIG_ARG, "/Users/bhuvnesh.kumar/repos/appdynamics/extensions/vertica-monitoring-extension/src/test/resources/conf/config_generic.yml");
         testClass.execute(taskArgs, null);
 
     }
-
-//    @Test(expected = TaskExecutionException.class)
-//    public void testWithNullArgsShouldResultInException() throws Exception {
-//        testClass.execute(null, null);
-//
-//    }
-//
-//    @Test(expected = TaskExecutionException.class)
-//    public void testWithNoValidLogConfigResultInException() throws Exception {
-//        Map<String, String> args = Maps.newHashMap();
-//        args.put("config-file", "src/test/resources/conf/invalidConfig.yml");
-//
-//        testClass.execute(args, null);
-//    }
 
 }

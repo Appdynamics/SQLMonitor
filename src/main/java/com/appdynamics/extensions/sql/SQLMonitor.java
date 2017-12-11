@@ -6,22 +6,15 @@ import com.appdynamics.extensions.TasksExecutionServiceProvider;
 import com.appdynamics.extensions.crypto.CryptoUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
-import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.appdynamics.extensions.TaskInputArgs.PASSWORD_ENCRYPTED;
-
 
 public class SQLMonitor extends ABaseMonitor {
 
@@ -66,7 +59,6 @@ public class SQLMonitor extends ABaseMonitor {
     }
 
 
-
     private SQLMonitorTask createTask(Map server, TasksExecutionServiceProvider serviceProvider) throws IOException {
         String connUrl = createConnectionUrl(server);
         Map<String, String> connectionProperties = getConnectionProperties(server);
@@ -91,7 +83,7 @@ public class SQLMonitor extends ABaseMonitor {
         Map<String, String> connectionProperties = new LinkedHashMap<String, String>();
         List<Map<String, String>> listOfMaps = (List<Map<String, String>>) server.get("connectionProperties");
 
-        if(listOfMaps != null){
+        if (listOfMaps != null) {
             for (Map amap : listOfMaps) {
                 for (Object key : amap.keySet()) {
                     if (key == "password") {
@@ -126,25 +118,6 @@ public class SQLMonitor extends ABaseMonitor {
         cryptoMap.put(PASSWORD_ENCRYPTED, encryptedPassword);
         cryptoMap.put(TaskInputArgs.ENCRYPTION_KEY, encryptionKey);
         return CryptoUtil.getPassword(cryptoMap);
-    }
-
-    public static void main(String[] args) throws TaskExecutionException {
-
-        final SQLMonitor monitor = new SQLMonitor();
-        final Map<String, String> taskArgs = new HashMap<String, String>();
-
-        taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config.yml");
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                try {
-                    monitor.execute(taskArgs, null);
-                } catch (Exception e) {
-                    logger.error("Error while running the task", e);
-                }
-            }
-        }, 2, 10, TimeUnit.SECONDS);
     }
 
 
