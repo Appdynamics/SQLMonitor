@@ -25,12 +25,21 @@ monitor.xml file.!
 <java-task>
     <!-- Use regular classpath foo.jar;bar.jar -->
     <!-- append JDBC driver jar -->
-    <classpath>sql-monitoring-extension.jar:Jar-File-For_Your-DB.jar</classpath>
-    <impl-class>com.appdynamics.monitors.sql.SQLMonitor</impl-class>
+    <classpath>sql-monitoring-extension.jar;Jar-File-For_Your-DB.jar</classpath>
+    <impl-class>com.appdynamics.extensions.sql.SQLMonitor</impl-class>
 </java-task>
 ```
 3. Edit the config.yaml file. An example config.yaml file follows these installation instructions.
-4. Restart the Machine Agent.
+4. Configure the path to the config.yaml file by editing the **task-argments** in the monitor.xml file.
+```
+    <task-arguments>
+        <!-- config file-->
+           <argument name="config-file" is-required="true" default-value="monitors/SQLMonitor/config.yml" />
+         ....
+    </task-arguments>
+
+```
+5. Restart the Machine Agent.
 
 
 ## Configuration ##
