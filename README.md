@@ -150,7 +150,7 @@ dbServers:
 
 ```
 In order to connect to any database, you will have to provide a connectionUrl. 
-In the example above we see that we the extension is connection to the "sqlserver" using the connectionUrl. 
+In the example above we see that the extension is connected to the "sqlserver"(listed in the config) using the connectionUrl. 
 In this case we are also providing the username, password and the databaseName in the same connectionUrl 
 and therefore the "connectionProperties" and the fields under it, "user" and "password", are commented out. 
 You have to make sure that if you are not sending any connectionProperties to create a 
@@ -272,7 +272,7 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 | ----- | ----- |
 | Version |1.4   |
 | Controller Compatibility |  3.7 or later  |
-| SQL Version Tested On | SQL 4.1,4.2, MySQL |
+| SQL Version Tested On | SQLServer 4.1,4.2, MySQL |
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
