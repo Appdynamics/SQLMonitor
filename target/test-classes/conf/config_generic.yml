@@ -3,7 +3,7 @@
 #metricPrefix: "Custom Metrics|SQL|"
 #This will create it in specific Tier. Replace <ComponentID> with TierID
 #metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|Tibco ASG|"
-metricPrefix: "Custom Metrics|AVertica1|Bh5"
+metricPrefix: "Custom Metrics|SQL|"
 
 dbServers:
     - displayName: "Vertica"

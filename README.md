@@ -42,91 +42,99 @@ You will have to Configure the SQL server instances by editing the config.yaml f
 The information provided in this file will be used to connect and query the database. 
 You can find a sample config.yaml file below.
 
-   ```
-   # Make sure the metric prefix ends with a |
-   #This will create this metric in all the tiers, under this path.
-   #metricPrefix: "Custom Metrics|SQL|"
-   #This will create it in specific Tier. Replace <ComponentID> with TierID
-   metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
-   
-   
-   dbServers:
-       - displayName: "Instance1"
-         connectionUrl: ""
-         driver: ""
-   
-         connectionProperties:
-           - user: ""
-           - password: ""
-   
-         #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password
-         #encryptedPassword: ""
-   
-         #Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
-         #encryptionKey: "welcome"
-   
-         # Replaces characters in metric name with the specified characters.
-         # "replace" takes any regular expression
-         # "replaceWith" takes the string to replace the matched characters
-   
-         metricCharacterReplacer:
-           - replace: "%"
-             replaceWith: ""
-           - replace: ","
-             replaceWith: "-"
-   
-   
-         queries:
-           - displayName: "Active Events"
-             queryStmt: "Select NODE_NAME, EVENT_CODE, EVENT_ID, EVENT_POSTED_COUNT from Active_events"
-             columns:
-               - name: "NODE_NAME"
-                 type: "metricPathName"
-   
-               - name: "EVENT_ID"
-                 type: "metricPathName"
-   
-               - name: "EVENT_CODE"
-                 type: "metricValue"
-   
-               - name: "EVENT_POSTED_COUNT"
-                 type: "metricValue"
-   
-           - displayName: "IO Usage"
-             queryStmt: "Select NODE_NAME, READ_KBYTES_PER_SEC, WRITTEN_KBYTES_PER_SEC from IO_USAGE"
-             columns:
-               - name: "NODE_NAME"
-                 type: "metricPathName"
-   
-               - name: "READ_KBYTES_PER_SEC"
-                 type: "metricValue"
-   
-               - name: "WRITTEN_KBYTES_PER_SEC"
-                 type: "metricValue"
-   
-           - displayName: "Node Status"
-             queryStmt: "Select NODE_NAME, NODE_STATE from NODE_STATES"
-             columns:
-               - name: "NODE_NAME"
-                 type: "metricPathName"
-   
-               - name: "NODE_STATE"
-                 type: "metricValue"
-                 properties:
-                   convert:
-                     "INITIALIZING" : 0
-                     "UP" : 1
-                     "DOWN" : 2
-                     "READY" : 3
-                     "UNSAFE" : 4
-                     "SHUTDOWN" : 5
-                     "RECOVERING" : 6
-   
-   
-   numberOfThreads: 5
-   
+```
+# Make sure the metric prefix ends with a |
+#This will create this metric in all the tiers, under this path.
+#metricPrefix: "Custom Metrics|SQL|"
+#This will create it in specific Tier. Replace <ComponentID> with TierID
+metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
 
-   ```
+
+dbServers:
+    - displayName: "Instance1"
+      connectionUrl: ""
+      driver: ""
+
+      connectionProperties:
+        - user: ""
+        - password: ""
+
+      #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password
+      #encryptedPassword: ""
+
+      #Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
+      #encryptionKey: "welcome"
+
+      # Replaces characters in metric name with the specified characters.
+      # "replace" takes any regular expression
+      # "replaceWith" takes the string to replace the matched characters
+
+      metricCharacterReplacer:
+        - replace: "%"
+          replaceWith: ""
+        - replace: ","
+          replaceWith: "-"
+
+
+      queries:
+        - displayName: "Active Events"
+          queryStmt: "Select NODE_NAME, EVENT_CODE, EVENT_ID, EVENT_POSTED_COUNT from Active_events"
+          columns:
+            - name: "NODE_NAME"
+              type: "metricPathName"
+
+            - name: "EVENT_ID"
+              type: "metricPathName"
+
+            - name: "EVENT_CODE"
+              type: "metricValue"
+
+            - name: "EVENT_POSTED_COUNT"
+              type: "metricValue"
+
+        - displayName: "TRANSACTION DATABASE"
+          queryStmt: "SELECT TARGET_BOX, REACH_DURATION, ROUTER_DURATION FROM ASG_TRANSACTIONS WHERE TARGET_BOX IN ('target1','target2','target3','target4','target5')"
+          columns:
+            - name: "TARGET_BOX"
+              type: "metricPathName"
+
+            - name: "REACH_DURATION"
+              type: "metricValue"
+
+            - name: "ROUTER_DURATION"
+              type: "metricValue"
+
+        - displayName: "Node Status"
+          queryStmt: "Select NODE_NAME, NODE_STATE from NODE_STATES"
+          columns:
+            - name: "NODE_NAME"
+              type: "metricPathName"
+
+            - name: "NODE_STATE"
+              type: "metricValue"
+              properties:
+                convert:
+                  "INITIALIZING" : 0
+                  "UP" : 1
+                  "DOWN" : 2
+                  "READY" : 3
+                  "UNSAFE" : 4
+                  "SHUTDOWN" : 5
+                  "RECOVERING" : 6
+
+
+
+
+
+numberOfThreads: 5
+
+#Run it as a scheduled task instead of running every minute.
+#If you want to run this every minute, comment this out
+#taskSchedule:
+  #numberOfThreads: 1
+  #taskDelaySeconds: 120
+
+```
 
 ### How to Connect to your Database with the extension ###
 Lets take a look at some sample connection information: 
@@ -250,7 +258,7 @@ If these don't solve your issue, please follow the last step on the [troubleshoo
 
 ## Contributing ##
 
-Always feel free to fork and contribute any changes directly via [GitHub](https://github.com/Appdynamics/SQLMonitor).
+Always feel free to fork and contribute any changes directly via [GitHub].
 
 ## Community ##
 

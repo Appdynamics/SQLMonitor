@@ -47,16 +47,16 @@ dbServers:
             - name: "EVENT_POSTED_COUNT"
               type: "metricValue"
 
-        - displayName: "IO Usage"
-          queryStmt: "Select NODE_NAME, READ_KBYTES_PER_SEC, WRITTEN_KBYTES_PER_SEC from IO_USAGE"
+        - displayName: "TRANSACTION DATABASE"
+          queryStmt: "SELECT TARGET_BOX, REACH_DURATION, ROUTER_DURATION FROM ASG_TRANSACTIONS WHERE TARGET_BOX IN ('target1','target2','target3','target4','target5')"
           columns:
-            - name: "NODE_NAME"
+            - name: "TARGET_BOX"
               type: "metricPathName"
 
-            - name: "READ_KBYTES_PER_SEC"
+            - name: "REACH_DURATION"
               type: "metricValue"
 
-            - name: "WRITTEN_KBYTES_PER_SEC"
+            - name: "ROUTER_DURATION"
               type: "metricValue"
 
         - displayName: "Node Status"
@@ -76,6 +76,9 @@ dbServers:
                   "UNSAFE" : 4
                   "SHUTDOWN" : 5
                   "RECOVERING" : 6
+
+
+
 
 
 numberOfThreads: 5
