@@ -2,8 +2,8 @@ SQL Monitoring Extension
 ====================================
 
 ## Use Case ##
-This extension can be used to query an SQL Database and the resulting values can be used as metrics on AppDynamics.
-The connection to the database is established through a JDBC connect and you will have to use a "connector" JAR file in order to have the extension connect and query the database.
+This extension can be used to query an ANSI SQL compliant database and the resulting values can be used as metrics on AppDynamics.
+The connection to the database is established through a JDBC connect and you will have to use a "connector" JDBC driver jar file in order to have the extension connect and query the database.
 
 The metrics reported by the extension can be modified as per the user's requirements. This extension can be used to query and pull metrics from any SQL based database.
 
