@@ -103,9 +103,9 @@ public class SQLMonitor extends ABaseMonitor {
                         }
                         connectionProperties.put((String) key, password);
                     }
-//                    else {
-//                        connectionProperties.put((String) key, (String) amap.get(key));
-//                    }
+                    else {
+                        connectionProperties.put((String) key, (String) amap.get(key));
+                    }
                 }
             }
             return connectionProperties;
