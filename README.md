@@ -187,7 +187,7 @@ You will have to confirm how your database takes in the login information and ba
 ## Credentials Encryption ##
 
 Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
-
+If you want to use password encryption, please send arguments as connectionProperties. You will have to fill in the encrypted Password and Encryption Key fields in the config but you will also have to give an empty "" value to the password field and the encrypted password will be automatically picked up.
 
 ### Explanation of the type of queries that are supported with this extension ###
 Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
@@ -279,9 +279,15 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 
 | Param | Description |
 | ----- | ----- |
-| Version |1.4   |
+| Version |1.4.1   |
 | Controller Compatibility |  3.7 or later  |
 | SQL Version Tested On | SQLServer 4.1,4.2, Vertica |
+
+## Change Log ##
+| Param | Description |
+| ----- | ----- |
+| 1.4.1 | Updated way to pick up encrypted password  |
+| 1.4 | Complete Revamp to add support to get multiple columns in one query, functionality changes, adheres to new Extensions standards(2.0.1) |
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
