@@ -279,9 +279,15 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 
 | Param | Description |
 | ----- | ----- |
-| Version |1.4   |
+| Version |1.4.1   |
 | Controller Compatibility |  3.7 or later  |
 | SQL Version Tested On | SQLServer 4.1,4.2, Vertica |
+
+## Change Log ##
+| Param | Description |
+| ----- | ----- |
+| 1.4.1 | Updated way to pick up encrypted password  |
+| 1.4 | Complete Revamp to add support to get multiple columns in one query, functionality changes, adheres to new Extensions standards(2.0.1) |
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
