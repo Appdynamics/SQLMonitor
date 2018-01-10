@@ -22,13 +22,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc41</artifactId>
-            <version>4.1</version>
-            <systemPath>${lib.dir}/sqljdbc41.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.appdynamics</groupId>
