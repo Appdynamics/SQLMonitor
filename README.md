@@ -286,6 +286,7 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 ## Change Log ##
 | Param | Description |
 | ----- | ----- |
+| 1.4.2 | Updated the onTaskComplete Metric Path
 | 1.4.1 | Updated way to pick up encrypted password  |
 | 1.4 | Complete Revamp to add support to get multiple columns in one query, functionality changes, adheres to new Extensions standards(2.0.1) |
 
