@@ -36,14 +36,26 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
         Connection connection = null;
         if (queries != null && !queries.isEmpty()) {
             try {
+                long timestamp1 = System.currentTimeMillis();
                 connection = getConnection();
-                for (Map query : queries) {
-                    try {
-                        executeQuery(connection, query);
-                    } catch (SQLException e) {
-                        logger.error("Error during executing query.");
+                long timestamp2 = System.currentTimeMillis();
+                logger.debug("Time taken to get Connection: " + (timestamp2 - timestamp1));
+                String dbServerDisplayName = (String) server.get("displayName");
+                if(connection != null) {
+                    logger.debug(" Connection successful for server: " + dbServerDisplayName);
+
+                    for (Map query : queries) {
+                        try {
+                            executeQuery(connection, query);
+                        } catch (SQLException e) {
+                            logger.error("Error during executing query.");
+                        }
                     }
+                } else {
+
+                    logger.debug("Null Connection returned for server: " + dbServerDisplayName);
                 }
+
             } catch (SQLException e) {
                 logger.error("Error Opening connection", e);
                 status = false;
@@ -52,7 +64,9 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
                 status = false;
             } finally {
                 try {
-                    closeConnection(connection);
+                    if (connection != null) {
+                        closeConnection(connection);
+                    }
                 } catch (Exception e) {
                     logger.error("Issue closing the connection", e);
                 }
@@ -108,7 +122,11 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
         String queryStmt = (String) query.get("queryStmt");
         queryStmt = substitute(queryStmt);
 
+        long timestamp1 = System.currentTimeMillis();
         resultSet = jdbcAdapter.queryDatabase(queryStmt, statement);
+        long timestamp2 = System.currentTimeMillis();
+
+        logger.debug("Queried the database in :"+ (timestamp2-timestamp1)+ " ms for query: \n " +  queryStmt);
         return resultSet;
     }
 
