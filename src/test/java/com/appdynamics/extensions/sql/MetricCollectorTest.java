@@ -39,7 +39,6 @@ public class MetricCollectorTest {
     @Test
     public void testGoingThroughResultSetWithNormalValues() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
-        List<Metric> list_of_metrics;
         when(resultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
 
         String num1 = "6";
@@ -55,7 +54,14 @@ public class MetricCollectorTest {
 
         MetricCollector metricCollector = new MetricCollector(metricPrefix, dbServerDisplayName, queryDisplayName, metricReplacer);
 
-        list_of_metrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        Map<String, Metric> mapOfMetrics;
+        List<Metric> list_of_metrics = new ArrayList<Metric>();
+
+
+        mapOfMetrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        for (String path : mapOfMetrics.keySet()) {
+            list_of_metrics.add(mapOfMetrics.get(path));
+        }
 
         for (Metric listMetric : list_of_metrics) {
             Boolean check = false;
@@ -94,9 +100,7 @@ public class MetricCollectorTest {
     @Test
     public void testGoingThroughResultSetWithConvertMap() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
-        List<Metric> list_of_metrics;
         when(resultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
-
 
         String num1 = "DOWN";
         when(resultSet.getString("NODE_NAME")).thenReturn("metricPathName");
@@ -109,7 +113,14 @@ public class MetricCollectorTest {
 
         MetricCollector metricCollector = new MetricCollector(metricPrefix, dbServerDisplayName, queryDisplayName, metricReplacer);
 
-        list_of_metrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        Map<String, Metric> mapOfMetrics;
+        List<Metric> list_of_metrics = new ArrayList<Metric>();
+
+
+        mapOfMetrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        for (String path : mapOfMetrics.keySet()) {
+            list_of_metrics.add(mapOfMetrics.get(path));
+        }
 
         for (Metric listMetric : list_of_metrics) {
             Boolean check = false;
@@ -131,7 +142,6 @@ public class MetricCollectorTest {
     @Test
     public void testingForCommaAndPercentSignRemoval() throws SQLException {
         ResultSet resultSet = mock(ResultSet.class);
-        List<Metric> list_of_metrics;
         when(resultSet.next()).thenReturn(Boolean.TRUE, Boolean.FALSE);
 
         String num1 = "6%";
@@ -147,7 +157,14 @@ public class MetricCollectorTest {
 
         MetricCollector metricCollector = new MetricCollector(metricPrefix, dbServerDisplayName, queryDisplayName, metricReplacer);
 
-        list_of_metrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        Map<String, Metric> mapOfMetrics;
+        List<Metric> list_of_metrics = new ArrayList<Metric>();
+
+
+        mapOfMetrics = metricCollector.goingThroughResultSet(resultSet, columns);
+        for (String path : mapOfMetrics.keySet()) {
+            list_of_metrics.add(mapOfMetrics.get(path));
+        }
 
         for (Metric listMetric : list_of_metrics) {
 
