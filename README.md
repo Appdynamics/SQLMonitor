@@ -318,14 +318,6 @@ Always feel free to fork and contribute any changes directly via [GitHub](https:
 
 
 
-| Param | Description |
-| ----- | ----- |
-| Version |1.4.1   |
-| Controller Compatibility |  3.7 or later  |
-| SQL Version Tested On | SQLServer 4.1,4.2, Vertica |
-
-
-
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
 [AppDynamics Center of Excellence]: mailto:help@appdynamics.com
