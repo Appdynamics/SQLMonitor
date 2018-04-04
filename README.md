@@ -1,26 +1,50 @@
 SQL Monitoring Extension
 ====================================
 
-## Use Case ##
-This extension can be used to query an ANSI SQL compliant database and the resulting values can be used as metrics on AppDynamics.
-The connection to the database is established through a JDBC connect and you will have to use a "connector" JDBC driver jar file in order to have the extension connect and query the database.
+## Use Case 
+This extension can be used to query an ANSI SQL compliant database and the resulting values can 
+be used as metrics on AppDynamics.
+The connection to the database is established through a JDBC connect 
+and you will have to use a "connector" JDBC driver jar file in order to have the 
+extension connect and query the database.
 
-The metrics reported by the extension can be modified as per the user's requirements. This extension can be used to query and pull metrics from any SQL based database.
+The metrics reported by the extension can be modified as per the user's requirements.
+ This extension can be used to query and pull metrics from any SQL based database.
+ 
+ 
 
-### Prerequisites ###
-1. This extension requires a AppDynamics Java Machine Agent installed and running.
-2. This extension requires that the user provide their own Jar file in order to connect to the Database. 
+## Prerequisites 
+This extension requires that the user provide their own Jar file in order to connect to the Database. 
 
-## Installation ##
+In order to use this extension, you do need a [Standalone JAVA Machine Agent](https://docs.appdynamics.com/display/PRO44/Java+Agent) or [SIM Agent](https://docs.appdynamics.com/display/PRO44/Server+Visibility). 
+For more details on downloading these products, please visit [download.appdynamics.com](https://download.appdynamics.com/).
+
+This is very essential in order to establish a connection with the Database to get the metrics.
+The extension needs to be able to connect to the database in order to collect and send metrics. 
+To do this, you will have to either establish a remote connection in between the extension and the product, or have an agent on the same machine running the product in order for the extension to collect and send the metrics.
+
+
+
+## Installation 
 
 1. To build from the source, run "mvn clean install" and find the SQLMonitor.zip file in the "target" folder.
    You can also download the SQLMonitor.zip from [AppDynamics Exchange][].
 2. Unzip as "SQLMonitor" and copy the **"SQLMonitor"** directory to `<MACHINE_AGENT_HOME>/monitors`.
 
-    **Note:** You will need to provide your own **JDBC** driver for the database you want to connect to. Put the driver JAR file in the same directory and add it to the classpath element in the
+
+**Note:** Please place the extension in the **"monitors"** directory of your **Machine Agent** installation 
+directory. Do not place the extension in the **"extensions"** directory of your **Machine Agent** installation directory.
+    
+
+
+
+## Configuration ##
+
+### JDBC JAR 
+
+**Note:** You will need to provide your own **JDBC** driver for the database you want to connect to. Put the driver JAR file in the same directory and add it to the classpath element in the
 monitor.xml file.!
 
-### Example ###
 ```
 <java-task>
     <!-- Use regular classpath foo.jar;bar.jar -->
@@ -41,9 +65,7 @@ monitor.xml file.!
 ```
 5. Restart the Machine Agent.
 
-
-## Configuration ##
-
+### config.yml
 
 **Note** : Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
@@ -145,7 +167,7 @@ numberOfThreads: 5
 
 ```
 
-### How to Connect to your Database with the extension ###
+### How to Connect to your Database with the extension 
 Lets take a look at some sample connection information: 
 ```
 dbServers:
@@ -184,12 +206,8 @@ dbServers:
 In this case we do add the Database Name as the last part of the connectionUrl **(VMart)** but all other properties like the **username** and **password** are provided as **connectionProperties**. 
 You will have to confirm how your database takes in the login information and based on that provide the information in your config.yaml in order to successfully establish a connection.
 
-## Credentials Encryption ##
 
-Please visit [this page ](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397)to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
-If you want to use password encryption, please send arguments as connectionProperties. You will have to fill in the encrypted Password and Encryption Key fields in the config but you will also have to give an empty "" value to the password field and the encrypted password will be automatically picked up.
-
-### Explanation of the type of queries that are supported with this extension ###
+### Explanation of the type of queries that are supported with this extension 
 Only queries that start with **SELECT** are allowed! Your query should only return one row at a time. 
 
 It is suggested that you only  return one row at a time because if it returns a full table with enormous amount of data, it may overwhelm the system and it may take a very long time to fetch that data.  
@@ -259,23 +277,46 @@ The extension will automatically convert the text value to the corresponding num
 
 **NOTE:** In order to use this feature, please make sure that the value that is being returned is EXACTLY the same as you have listed in the config.yaml, otherwise the extension will throw an error.
  
-## Troubleshooting ##
+## Credentials Encryption
+Please visit [this](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-Password-Encryption-with-Extensions/ta-p/29397) page to get detailed instructions on password encryption. The steps in this document will guide you through the whole process.
 
-Please follow the steps listed in this [troubleshooting-document] in order to troubleshoot your issue. 
-These are a set of common issues that customers might have faced during the installation of the extension. 
-If these don't solve your issue, please follow the last step on the [troubleshooting-document] to contact the support team.
+## Extensions Workbench
+Workbench is an inbuilt feature provided with each extension in order to assist you to fine tune the extension setup before you actually deploy it on the controller. Please review the following [document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-use-the-Extensions-WorkBench/ta-p/30130) for how to use the Extensions WorkBench
 
-## Contributing ##
+## Troubleshooting
+Please follow the steps listed in the [extensions troubleshooting document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that customers might have faced during the installation of the extension. If these don't solve your issue, please follow the last step on the troubleshooting-document to contact the support team.
 
-Always feel free to fork and contribute any changes directly via [GitHub].
+## Support Tickets
+If after going through the Troubleshooting Document you have not been able to get your extension working, please file a ticket and add the following information.
 
-## Community ##
+Please provide the following in order for us to assist you better.  
 
-Find out more in the [AppDynamics Exchange].
+1. Stop the running machine agent .
+2. Delete all existing logs under <MachineAgent>/logs .
+3. Please enable debug logging by editing the file <MachineAgent>/conf/logging/log4j.xml. Change the level value of the following <logger> elements to debug. 
+   ```
+   <logger name="com.singularity">
+   <logger name="com.appdynamics">
+     ```
+4. Start the machine agent and please let it run for 10 mins. Then zip and upload all the logs in the directory <MachineAgent>/logs/*.
+5. Attach the zipped <MachineAgent>/conf/* directory here.
+ 6. Attach the zipped <MachineAgent>/monitors/<ExtensionMonitor> directory here .
 
-## Support ##
+For any support related questions, you can also contact help@appdynamics.com.
 
-For any questions or feature request, please contact [AppDynamics Center of Excellence].
+## Contributing
+Always feel free to fork and contribute any changes directly via [GitHub](https://github.com/Appdynamics/vertica-monitoring-extension).
+
+## Version
+|          Name            |  Version   |
+|--------------------------|------------|
+|Extension Version         |1.4.6       |
+|Controller Compatibility  |3.7 or Later|
+|Product Tested On         |SQLServer 4.1,4.2, Vertica|
+|Last Update               |04/04/2018 |
+|List of Changes           |[Change log](https://github.com/Appdynamics/SQLMonitor/changelog.md) |
+
+
 
 | Param | Description |
 | ----- | ----- |
@@ -283,12 +324,7 @@ For any questions or feature request, please contact [AppDynamics Center of Exce
 | Controller Compatibility |  3.7 or later  |
 | SQL Version Tested On | SQLServer 4.1,4.2, Vertica |
 
-## Change Log ##
-| Param | Description |
-| ----- | ----- |
-| 1.4.2 | Updated the onTaskComplete Metric Path
-| 1.4.1 | Updated way to pick up encrypted password  |
-| 1.4 | Complete Revamp to add support to get multiple columns in one query, functionality changes, adheres to new Extensions standards(2.0.1) |
+
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
