@@ -1,4 +1,4 @@
-## Vertica Monitoring Extension
+## SQL Monitoring Extension
 
 ### v1.4.6
 
