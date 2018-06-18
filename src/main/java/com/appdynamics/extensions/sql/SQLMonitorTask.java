@@ -173,9 +173,9 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
     public void onTaskComplete() {
         logger.debug("Task Complete");
         if (status == true) {
-            metricWriter.printMetric(metricPrefix + "|" + server.get("displayName") + "HeartBeat", "1", "AVERAGE", "AVERAGE", "INDIVIDUAL");
+            metricWriter.printMetric(metricPrefix + "|" + server.get("displayName") + "|" + "HeartBeat", "1", "AVERAGE", "AVERAGE", "INDIVIDUAL");
         } else {
-            metricWriter.printMetric(metricPrefix + "|" + server.get("displayName") + "HeartBeat", "0", "AVERAGE", "AVERAGE", "INDIVIDUAL");
+            metricWriter.printMetric(metricPrefix + "|" + server.get("displayName") + "|" + "HeartBeat", "0", "AVERAGE", "AVERAGE", "INDIVIDUAL");
         }
     }
 
