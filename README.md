@@ -310,7 +310,7 @@ Always feel free to fork and contribute any changes directly via [GitHub](https:
 ## Version
 |          Name            |  Version   |
 |--------------------------|------------|
-|Extension Version         |1.4.6       |
+|Extension Version         |1.4.7       |
 |Controller Compatibility  |3.7 or Later|
 |Product Tested On         |SQLServer 4.1,4.2, Vertica|
 |Last Update               |04/04/2018 |

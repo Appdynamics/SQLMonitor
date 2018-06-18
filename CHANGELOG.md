@@ -1,5 +1,11 @@
 ## SQL Monitoring Extension
 
+
+### v1.4.7
+
+* Updated HeartBeat Metric Path.
+
+
 ### v1.4.6
 
 * Added HeartBeat Metric.
