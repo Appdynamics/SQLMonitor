@@ -157,23 +157,5 @@ public class SQLMonitor extends ABaseMonitor {
         return CryptoUtil.getPassword(cryptoMap);
     }
 
-    public static void main(String[] args) throws TaskExecutionException {
-
-        final SQLMonitor monitor = new SQLMonitor();
-        final Map<String, String> taskArgs = new HashMap<String, String>();
-
-        taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config.yml");
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                try {
-                    monitor.execute(taskArgs, null);
-                } catch (Exception e) {
-                    logger.error("Error while running the task", e);
-                }
-            }
-        }, 2, 10, TimeUnit.SECONDS);
-    }
 
 }
