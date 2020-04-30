@@ -8,8 +8,9 @@
 package com.appdynamics.extensions.sql;
 
 
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.google.common.base.Strings;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.sql.*;
 import java.util.Map;
@@ -18,9 +19,9 @@ import java.util.Properties;
 
 public class JDBCConnectionAdapter {
 
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(JDBCConnectionAdapter.class);
     private final String connUrl;
     private final Map<String, String> connectionProperties;
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(JDBCConnectionAdapter.class);
 
 
     private JDBCConnectionAdapter(String connStr, Map<String, String> connectionProperties) {

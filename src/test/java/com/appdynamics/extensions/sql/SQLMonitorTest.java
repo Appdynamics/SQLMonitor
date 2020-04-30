@@ -33,7 +33,7 @@ public class SQLMonitorTest {
     @Test
     public void testSQLMonitoringExtension() throws TaskExecutionException {
         Map<String, String> taskArgs = new HashMap<String, String>();
-        taskArgs.put(CONFIG_ARG, "/Users/bhuvnesh.kumar/repos/appdynamics/extensions/vertica-monitoring-extension/src/test/resources/conf/config_generic.yml");
+        taskArgs.put(CONFIG_ARG, "src/test/resources/conf/config_generic.yml");
         testClass.execute(taskArgs, null);
 
     }

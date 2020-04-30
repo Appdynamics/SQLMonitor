@@ -79,14 +79,29 @@ dbServers:
 
 
 
+controllerInfo:
+  controllerHost: "controller"
+  controllerPort: 8090
+  account: "customer1"
+  username: "admin"
+  password: "admin"
+  encryptedPassword: ""
+  encryptionKey: ""
+  controllerSslEnabled: false
+  enableOrchestration: false
+  uniqueHostId: ""
+  accountAccessKey: ""
+  machinePath: ""
+  simEnabled: true
+  applicationName: ""
+  tierName: ""
+  nodeName: ""
 
 
 numberOfThreads: 5
 
 #Run it as a scheduled task instead of running every minute.
-#If you want to run this every minute, comment this out
+#Configure it. refer: https://community.appdynamics.com/t5/Knowledge-Base/Task-Schedule-for-Extensions/ta-p/35414#Configuration
 #taskSchedule:
-  #numberOfThreads: 1
-  #taskDelaySeconds: 120
-
-
+#  numberOfThreads: 1
+#  taskDelaySeconds: 120
