@@ -9,8 +9,9 @@ package com.appdynamics.extensions.sql;
 
 import com.appdynamics.extensions.AMonitorTaskRunnable;
 import com.appdynamics.extensions.MetricWriteHelper;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.appdynamics.extensions.metrics.Metric;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
     private JDBCConnectionAdapter jdbcAdapter;
     private Map server;
     private Boolean status = true;
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(SQLMonitorTask.class);
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(SQLMonitorTask.class);
 
 
     public void run() {
@@ -44,16 +45,10 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
                 String dbServerDisplayName = (String) server.get("displayName");
                 logger.debug("Time taken to get Connection for " + dbServerDisplayName + " : " + (timeAfterConnection - timeBeforeConnection));
 
-                if(connection != null) {
+                if (connection != null) {
                     logger.debug(" Connection successful for server: " + dbServerDisplayName);
-
-                    for (Map query : queries) {
-                        try {
-                            executeQuery(connection, query);
-                        } catch (SQLException e) {
-                            logger.error("Error during executing query.");
-                        }
-                    }
+                    for (Map query : queries)
+                        executeQuery(connection, query);
                 } else {
 
                     logger.debug("Null Connection returned for server: " + dbServerDisplayName);
@@ -77,7 +72,7 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
         }
     }
 
-    private void executeQuery(Connection connection, Map query) throws SQLException {
+    private void executeQuery(Connection connection, Map query) {
         Statement statement = null;
         ResultSet resultSet = null;
 

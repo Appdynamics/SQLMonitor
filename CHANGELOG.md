@@ -1,5 +1,7 @@
 ## SQL Monitoring Extension
 
+### v2.2.3
+* Updated to ext commons 2.2.3
 
 ### v1.4.7
 
