@@ -11,25 +11,9 @@ dbServers:
       driver: ""
 
       connectionProperties:
-        - user: ""
-        - password: ""
-
-      #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password
-      #encryptedPassword: ""
-
-      #Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
-      #encryptionKey: "welcome"
-
-      # Replaces characters in metric name with the specified characters.
-      # "replace" takes any regular expression
-      # "replaceWith" takes the string to replace the matched characters
-
-      metricCharacterReplacer:
-        - replace: "%"
-          replaceWith: ""
-        - replace: ","
-          replaceWith: "-"
-
+          user: ""
+          password: ""
+          encryptedPassword: ""  #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password. https://community.appdynamics.com/t5/Knowledge-Base/How-do-I-use-Password-Encryption-with-Extensions/ta-p/29397
 
       queries:
         - displayName: "Active Events"
@@ -77,6 +61,24 @@ dbServers:
                   "SHUTDOWN" : 5
                   "RECOVERING" : 6
 
+      # Replaces characters in metric name with the specified characters.
+      # "replace" takes any regular expression
+      # "replaceWith" takes the string to replace the matched characters
+
+      metricCharacterReplacer:
+        - replace: "%"
+          replaceWith: ""
+        - replace: ","
+          replaceWith: "-"
+
+
+numberOfThreads: 5
+
+#Run it as a scheduled task instead of running every minute.
+#Configure it. refer: https://community.appdynamics.com/t5/Knowledge-Base/Task-Schedule-for-Extensions/ta-p/35414#Configuration
+#taskSchedule:
+  #numberOfThreads: 1
+  #taskDelaySeconds: 120
 
 
 controllerInfo:
@@ -86,7 +88,6 @@ controllerInfo:
   username: "admin"
   password: "admin"
   encryptedPassword: ""
-  encryptionKey: ""
   controllerSslEnabled: false
   enableOrchestration: false
   uniqueHostId: ""
@@ -97,11 +98,6 @@ controllerInfo:
   tierName: ""
   nodeName: ""
 
+encryptionKey: "abcd"
 
-numberOfThreads: 5
 
-#Run it as a scheduled task instead of running every minute.
-#Configure it. refer: https://community.appdynamics.com/t5/Knowledge-Base/Task-Schedule-for-Extensions/ta-p/35414#Configuration
-#taskSchedule:
-#  numberOfThreads: 1
-#  taskDelaySeconds: 120

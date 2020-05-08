@@ -17,8 +17,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,16 +39,16 @@ public class SQLMonitor extends ABaseMonitor {
     @Override
     protected void doRun(TasksExecutionServiceProvider serviceProvider) {
 
-        List<Map<String, String>> servers = (List<Map<String, String>>) getContextConfiguration().getConfigYml().get("dbServers");
+        List<Map<String, ?>> servers = (List<Map<String, ?>>) getContextConfiguration().getConfigYml().get("dbServers");
 
         previousTimestamp = currentTimestamp;
         currentTimestamp = System.currentTimeMillis();
         if (previousTimestamp != 0) {
-            for (Map<String, String> server : servers) {
+            for (Map<String, ?> server : servers) {
                 try {
                     SQLMonitorTask task = createTask(server, serviceProvider);
-                    serviceProvider.submit(server.get("displayName"), task);
-                } catch (IOException e) {
+                    serviceProvider.submit((String) server.get("displayName"), task);
+                } catch (Exception e) {
                     logger.error("Cannot construct JDBC uri for {}", Util.convertToString(server.get("displayName"), ""));
                 }
             }
@@ -62,7 +60,7 @@ public class SQLMonitor extends ABaseMonitor {
         return (List<Map<String, ?>>) getContextConfiguration().getConfigYml().get("dbServers");
     }
 
-    private SQLMonitorTask createTask(Map server, TasksExecutionServiceProvider serviceProvider) throws IOException {
+    private SQLMonitorTask createTask(Map<String, ?> server, TasksExecutionServiceProvider serviceProvider) {
         String connUrl = createConnectionUrl(server);
 
         AssertUtils.assertNotNull(serverName(server), "The 'displayName' field under the 'dbServers' section in config.yml is not initialised");
@@ -83,56 +81,36 @@ public class SQLMonitor extends ABaseMonitor {
 
     }
 
-    private String serverName(Map server) {
+    private String serverName(Map<String, ?> server) {
         String name = Util.convertToString(server.get("displayName"), "");
         return name;
     }
 
-    private String driverName(Map server) {
+    private String driverName(Map<String, ?> server) {
         String name = Util.convertToString(server.get("driver"), "");
         return name;
     }
 
-    private String createConnectionUrl(Map server) {
+    private String createConnectionUrl(Map<String, ?> server) {
         String url = Util.convertToString(server.get("connectionUrl"), "");
         return url;
     }
 
-    private Map<String, String> getConnectionProperties(Map server) {
-        Map<String, String> connectionProperties = new LinkedHashMap<String, String>();
-        List<Map<String, String>> listOfMaps = (List<Map<String, String>>) server.get("connectionProperties");
+    private Map<String, String> getConnectionProperties(Map<String, ?> server) {
+        Map<String, String> connectionProperties = (Map<String, String>) server.get("connectionProperties");
+        String password = connectionProperties.get("password");
+        if (Strings.isNullOrEmpty(password))
+            password = getPassword(connectionProperties);
 
-        if (listOfMaps != null) {
-            for (Map amap : listOfMaps) {
-                for (Object key : amap.keySet()) {
-                    if (key.toString().equals("password")) {
-                        String password;
-
-                        if (Strings.isNullOrEmpty((String) amap.get(key))) {
-                            password = getPassword(server);
-                        } else {
-                            password = (String) amap.get(key);
-                        }
-                        connectionProperties.put((String) key, password);
-                    } else {
-                        connectionProperties.put((String) key, (String) amap.get(key));
-                    }
-                }
-            }
-            return connectionProperties;
-        }
-
-        return null;
+        connectionProperties.put("password", password);
+        return connectionProperties;
     }
 
-    private String getPassword(Map server) {
-        String password = (String) server.get(Constant.PASSWORD);
-        String encryptedPassword = (String) server.get(Constant.ENCRYPTED_PASSWORD);
+
+    private String getPassword(Map<String, String> server) {
+        String encryptedPassword =  server.get(Constant.ENCRYPTED_PASSWORD);
         Map<String, ?> configMap = getContextConfiguration().getConfigYml();
         String encryptionKey = (String) configMap.get(Constant.ENCRYPTION_KEY);
-        if (!Strings.isNullOrEmpty(password)) {
-            return password;
-        }
         if (!Strings.isNullOrEmpty(encryptedPassword)) {
             Map<String, String> cryptoMap = Maps.newHashMap();
             cryptoMap.put("encryptedPassword", encryptedPassword);
@@ -144,10 +122,13 @@ public class SQLMonitor extends ABaseMonitor {
     }
 
 //    public static void main(String[] args) throws TaskExecutionException {
-//        SQLMonitor sqlMonitor = new SQLMonitor();
-//        Map<String, String> params = new HashMap<>();
-//        params.put("config-file", "/Users/prashant.mehta/dev/SQLMonitor/src/main/resources/conf/config.yml");
-//        sqlMonitor.execute(params, null);
+//
+//        SQLMonitor monitor = new SQLMonitor();
+//
+//        final Map<String, String> taskArgs = new HashMap<String, String>();
+//
+//        taskArgs.put("config-file", "src/main/resources/conf/config.yml");
+//        monitor.execute(taskArgs, null);
 //    }
 
 }
