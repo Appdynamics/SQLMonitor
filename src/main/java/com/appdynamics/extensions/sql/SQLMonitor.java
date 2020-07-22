@@ -81,7 +81,7 @@ public class SQLMonitor extends ABaseMonitor {
         Map<String, String> connectionProperties = getConnectionProperties(server);
         JDBCConnectionAdapter jdbcAdapter = JDBCConnectionAdapter.create(connUrl, connectionProperties);
 
-        logger.debug("Task Created");
+        logger.debug("Task Created for "+server.get("displayName"));
 
         return new SQLMonitorTask.Builder()
                 .metricWriter(serviceProvider.getMetricWriteHelper())

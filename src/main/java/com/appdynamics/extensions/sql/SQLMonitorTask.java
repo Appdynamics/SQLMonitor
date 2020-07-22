@@ -37,12 +37,13 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
         List<Map> queries = (List<Map>) server.get("queries");
         Connection connection = null;
         if (queries != null && !queries.isEmpty()) {
+            String dbServerDisplayName = (String) server.get("displayName");
             try {
                 long timeBeforeConnection = System.currentTimeMillis();
                 connection = getConnection();
                 long timeAfterConnection = System.currentTimeMillis();
                 logger.debug("Time taken to get Connection: " + (timeAfterConnection - timeBeforeConnection));
-                String dbServerDisplayName = (String) server.get("displayName");
+
                 logger.debug("Time taken to get Connection for " + dbServerDisplayName + " : " + (timeAfterConnection - timeBeforeConnection));
 
                 if (connection != null) {
@@ -60,7 +61,11 @@ public class SQLMonitorTask implements AMonitorTaskRunnable {
             } catch (ClassNotFoundException e) {
                 logger.error("Class not found while opening connection", e);
                 status = false;
-            } finally {
+            } catch (Exception e) {
+                logger.error("Error collecting metrics for "+dbServerDisplayName, e);
+                status = false;
+            }
+            finally {
                 try {
                     if (connection != null) {
                         closeConnection(connection);
