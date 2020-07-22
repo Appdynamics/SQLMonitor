@@ -49,7 +49,7 @@ public class SQLMonitor extends ABaseMonitor {
                     SQLMonitorTask task = createTask(server, serviceProvider);
                     serviceProvider.submit((String) server.get("displayName"), task);
                 } catch (Exception e) {
-                    logger.error("Cannot construct JDBC uri for {}", Util.convertToString(server.get("displayName"), ""));
+                    logger.error("Error while creating task for {}", Util.convertToString(server.get("displayName"), ""),e);
                 }
             }
         }
@@ -63,13 +63,25 @@ public class SQLMonitor extends ABaseMonitor {
     private SQLMonitorTask createTask(Map<String, ?> server, TasksExecutionServiceProvider serviceProvider) {
         String connUrl = createConnectionUrl(server);
 
-        AssertUtils.assertNotNull(serverName(server), "The 'displayName' field under the 'dbServers' section in config.yml is not initialised");
-        AssertUtils.assertNotNull(createConnectionUrl(server), "The 'connectionUrl' field under the 'dbServers' section in config.yml is not initialised");
-        AssertUtils.assertNotNull(driverName(server), "The 'driver' field under the 'dbServers' section in config.yml is not initialised");
+        //Fix for ACE-1001
+        if(Strings.isNullOrEmpty(serverName(server))){
+            throw new IllegalArgumentException("The 'displayName' field under the 'dbServers' section in config.yml is not initialised");
+        }
+        if(Strings.isNullOrEmpty(createConnectionUrl(server))){
+            throw new IllegalArgumentException("The 'connectionUrl' field under the 'dbServers' section in config.yml is not initialised");
+        }
+        if(Strings.isNullOrEmpty(driverName(server))){
+            throw new IllegalArgumentException("The 'driver' field under the 'dbServers' section in config.yml is not initialised");
+        }
 
-        logger.debug("Task Created");
+        //AssertUtils.assertNotNull(serverName(server), "The 'displayName' field under the 'dbServers' section in config.yml is not initialised");
+        //AssertUtils.assertNotNull(createConnectionUrl(server), "The 'connectionUrl' field under the 'dbServers' section in config.yml is not initialised");
+        //AssertUtils.assertNotNull(driverName(server), "The 'driver' field under the 'dbServers' section in config.yml is not initialised");
+
         Map<String, String> connectionProperties = getConnectionProperties(server);
         JDBCConnectionAdapter jdbcAdapter = JDBCConnectionAdapter.create(connUrl, connectionProperties);
+
+        logger.debug("Task Created");
 
         return new SQLMonitorTask.Builder()
                 .metricWriter(serviceProvider.getMetricWriteHelper())

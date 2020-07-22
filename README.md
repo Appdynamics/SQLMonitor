@@ -310,10 +310,10 @@ Always feel free to fork and contribute any changes directly via [GitHub](https:
 ## Version
 |          Name            |  Version   |
 |--------------------------|------------|
-|Extension Version         |2.0.0       |
+|Extension Version         |2.0.1       |
 |Controller Compatibility  |3.7 or Later|
 |Product Tested On         |MySql, SQLServer 4.1,4.2, Vertica|
-|Last Update               |04/30/2020 |
+|Last Update               |07/22/2020 |
 |List of Changes           |[Change log](https://github.com/Appdynamics/SQLMonitor/blob/master/CHANGELOG.md) |
 
 

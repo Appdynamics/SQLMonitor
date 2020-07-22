@@ -1,6 +1,9 @@
 ## SQL Monitoring Extension
 
-### v2.2.3
+### v2.0.1
+* Fixed exception logging for SQLMonitor class 
+
+### v2.0.0
 * Updated to ext commons 2.2.3
 
 ### v1.4.7
