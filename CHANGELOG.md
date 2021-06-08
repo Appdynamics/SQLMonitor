@@ -1,4 +1,6 @@
 ## SQL Monitoring Extension
+### v2.0.2
+* Updated to appd-exts-commons 2.2.4
 
 ### v2.0.1
 * Fixed exception logging for SQLMonitor class 
