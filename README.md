@@ -87,14 +87,11 @@ dbServers:
       driver: ""
 
       connectionProperties:
-        - user: ""
-        - password: ""
+          user: ""
+          password: ""
+          encryptedPassword: ""  #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password. https://community.appdynamics.com/t5/Knowledge-Base/How-do-I-use-Password-Encryption-with-Extensions/ta-p/29397
 
-      #Needs to be used in conjunction with `encryptionKey`. Please read the extension documentation to generate encrypted password
-      #encryptedPassword: ""
 
-      #Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
-      #encryptionKey: "welcome"
 
       # Replaces characters in metric name with the specified characters.
       # "replace" takes any regular expression
@@ -154,9 +151,6 @@ dbServers:
                   "RECOVERING" : 6
 
 
-
-
-
 numberOfThreads: 5
 
 #Run it as a scheduled task instead of running every minute.
@@ -164,6 +158,9 @@ numberOfThreads: 5
 #taskSchedule:
   #numberOfThreads: 1
   #taskDelaySeconds: 120
+
+#Needs to be used in conjunction with `encryptedPassword`. Please read the extension documentation to generate encrypted password
+encryptionKey: "welcome"
 
 ```
 
@@ -176,8 +173,8 @@ dbServers:
       driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 
 #      connectionProperties:
-#        - user: ""
-#        - password: ""
+#          user: ""
+#          password: ""
 
 ```
 In order to connect to any database, you will have to provide a connectionUrl. 
