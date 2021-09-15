@@ -16,8 +16,7 @@ The metrics reported by the extension can be modified as per the user's requirem
 ## Prerequisites 
 This extension requires that the user provide their own Jar file in order to connect to the Database. 
 
-In order to use this extension, you do need a [Standalone JAVA Machine Agent](https://docs.appdynamics.com/display/PRO44/Java+Agent) or [SIM Agent](https://docs.appdynamics.com/display/PRO44/Server+Visibility). 
-For more details on downloading these products, please visit [download.appdynamics.com](https://download.appdynamics.com/).
+Before the extension is installed, the prerequisites mentioned [here](https://community.appdynamics.com/t5/Knowledge-Base/Extensions-Prerequisites-Guide/ta-p/35213) need to be met. Please do not proceed with the extension installation if the specified prerequisites are not met.
 
 This is very essential in order to establish a connection with the Database to get the metrics.
 The extension needs to be able to connect to the database in order to collect and send metrics. 
@@ -27,10 +26,9 @@ To do this, you will have to either establish a remote connection in between the
 
 ## Installation 
 
-1. To build from the source, run "mvn clean install" and find the SQLMonitor.zip file in the "target" folder.
-   You can also download the SQLMonitor.zip from [AppDynamics Exchange][].
-2. Unzip as "SQLMonitor" and copy the **"SQLMonitor"** directory to `<MACHINE_AGENT_HOME>/monitors`.
-
+1. To build from the source, run "mvn clean install" and find the SQLMonitor-VERSION.zip file in the "target" folder.
+2. Unzip the "SQLMonitor-VERSION.zip" from `target` directory into the `<MACHINE_AGENT_HOME>/monitors` folder.
+3. Restart the Machine Agent.
 
 **Note:** Please place the extension in the **"monitors"** directory of your **Machine Agent** installation 
 directory. Do not place the extension in the **"extensions"** directory of your **Machine Agent** installation directory.
@@ -67,7 +65,7 @@ monitor.xml file.!
 
 ### config.yml
 
-**Note** : Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
+**Note** : Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a [yaml validator](https://jsonformatter.org/yaml-validator)
 
 You will have to Configure the SQL server instances by editing the config.yaml file in `<MACHINE_AGENT_HOME>/monitors/SQLMonitor/`. 
 The information provided in this file will be used to connect and query the database. 
@@ -77,7 +75,7 @@ You can find a sample config.yaml file below.
 # Make sure the metric prefix ends with a |
 #This will create this metric in all the tiers, under this path.
 #metricPrefix: "Custom Metrics|SQL|"
-#This will create it in specific Tier. Replace <ComponentID> with TierID
+#This will create it in specific Tier. Replace <ComponentID> with TierID. For more details refer https://community.appdynamics.com/t5/Knowledge-Base/How-do-I-troubleshoot-missing-custom-metrics-or-extensions/ta-p/28695
 metricPrefix: "Server|Component:<ComponentID>|Custom Metrics|SQL|"
 
 
@@ -290,12 +288,11 @@ Always feel free to fork and contribute any changes directly via [GitHub](https:
 |          Name            |  Version   |
 |--------------------------|------------|
 |Extension Version         |2.0.2       |
-|Controller Compatibility  |4.5 or Later|
 |Product Tested On         |MySql, SQLServer 4.1,4.2, Vertica|
 |Last Update               |08/06/2021 |
-|List of Changes           |[Change log](https://github.com/Appdynamics/SQLMonitor/blob/master/CHANGELOG.md) |
+|Changes list           |[Change log](https://github.com/Appdynamics/SQLMonitor/blob/master/CHANGELOG.md) |
 
-
+**Note**: While extensions are maintained and supported by customers under the open-source licensing model, they interact with agents and Controllers that are subject to [AppDynamics’ maintenance and support policy](https://docs.appdynamics.com/latest/en/product-and-release-announcements/maintenance-support-for-software-versions). Some extensions have been tested with AppDynamics 4.5.13+ artifacts, but you are strongly recommended against using versions that are no longer supported.
 
 [GitHub]: https://github.com/Appdynamics/SQLMonitor
 [AppDynamics Exchange]: https://www.appdynamics.com/community/exchange/extension/sqlmonitor/
