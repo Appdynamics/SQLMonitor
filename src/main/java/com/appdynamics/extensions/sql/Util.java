@@ -15,7 +15,7 @@ public class Util {
         if(field == null){
             return defaultStr;
         }
-        return field.toString();
+        return field+"";
     }
 
 

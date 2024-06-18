@@ -80,6 +80,13 @@ public class SQLMonitor extends ABaseMonitor {
 
         Map<String, String> connectionProperties = getConnectionProperties(server);
         JDBCConnectionAdapter jdbcAdapter = JDBCConnectionAdapter.create(connUrl, connectionProperties);
+        boolean windowsAuthentication = (System.getProperty("os.name").toLowerCase().contains("win") && connUrl.contains("integratedSecurity"));
+        logger.info("setting the connUrl==============================>"+ connUrl);
+        if(windowsAuthentication) {
+            jdbcAdapter.setEnableWindowsAuthentication(windowsAuthentication);
+            jdbcAdapter.setWinLibPath(getWinLibPath(server));
+        }
+
 
         logger.debug("Task Created for "+server.get("displayName"));
 
@@ -105,6 +112,11 @@ public class SQLMonitor extends ABaseMonitor {
 
     private String createConnectionUrl(Map<String, ?> server) {
         String url = Util.convertToString(server.get("connectionUrl"), "");
+        return url;
+    }
+
+    private String getWinLibPath(Map<String, ?> server) {
+        String url = Util.convertToString(server.get("driverDllFolderPath"), "");
         return url;
     }
 

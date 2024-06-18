@@ -12,9 +12,14 @@ import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
 
 
 public class JDBCConnectionAdapter {
@@ -22,6 +27,10 @@ public class JDBCConnectionAdapter {
     private static final Logger logger = ExtensionsLoggerFactory.getLogger(JDBCConnectionAdapter.class);
     private final String connUrl;
     private final Map<String, String> connectionProperties;
+
+    private String winLibPath;
+
+    private boolean enableWindowsAuthentication;
 
 
     private JDBCConnectionAdapter(String connStr, Map<String, String> connectionProperties) {
@@ -36,20 +45,26 @@ public class JDBCConnectionAdapter {
 
     Connection open(String driver) throws SQLException, ClassNotFoundException {
         Connection connection;
+        java.util.logging.Logger log = java.util.logging.Logger.getLogger("com.microsoft.sqlserver.jdbc");
+        log.setLevel(Level.FINE);
         Class.forName(driver);
-
-        Properties properties = new Properties();
-
-        if (connectionProperties != null) {
-            for (String key : connectionProperties.keySet()) {
-                if (!Strings.isNullOrEmpty(connectionProperties.get(key)))
-                    properties.put(key, connectionProperties.get(key));
-            }
-        }
-
-        logger.debug("Passed all checks for properties and attempting to connect to: "+ connUrl);
+        logger.info("driver====>"+driver);
+        logger.info("Passed all checks for properties and attempting to connect to =====>"+ connUrl);
         long timestamp1 = System.currentTimeMillis();
-        connection = DriverManager.getConnection(connUrl, properties);
+        if(enableWindowsAuthentication){
+            System.setProperty("java.library.path", winLibPath);
+            logger.info("setting the libreary path :"+ winLibPath);
+            connection = DriverManager.getConnection(connUrl);
+        } else {
+            Properties properties = new Properties();
+            if (connectionProperties != null) {
+                for (String key : connectionProperties.keySet()) {
+                    if (!Strings.isNullOrEmpty(connectionProperties.get(key)))
+                        properties.put(key, connectionProperties.get(key));
+                }
+            }
+            connection = DriverManager.getConnection(connUrl, properties);
+        }
         long timestamp2 = System.currentTimeMillis();
         logger.debug("Connection received in JDBC ConnectionAdapter in :"+ (timestamp2-timestamp1)+ " ms");
 
@@ -66,5 +81,13 @@ public class JDBCConnectionAdapter {
 
     void closeConnection(Connection connection) throws SQLException {
         connection.close();
+    }
+
+    public void setWinLibPath(String winLibPath) {
+        this.winLibPath = winLibPath;
+    }
+
+    public void setEnableWindowsAuthentication(boolean enableWindowsAuthentication) {
+        this.enableWindowsAuthentication = enableWindowsAuthentication;
     }
 }
