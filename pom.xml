@@ -44,12 +44,6 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-        <!--Default support for mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.20</version>
-        </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
