@@ -1,6 +1,6 @@
 ## SQL Monitoring Extension
 
-### master
+### v2.0.3
 * Removed default MySQL JDBC connector, users must supply own connectors
 * Updated to appd-exts-commons 2.2.13
 
